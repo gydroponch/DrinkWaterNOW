@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="oval">
+            <padding
+                android:top="150dp"/>
+            <stroke
+                android:width="9dp"
+                android:color="@color/lighterBlueForStatusBar" />
+        </shape>
+    </item>
+</layer-list>

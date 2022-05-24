@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Попей водички</string>
+    <string name="clickCount">click_count</string>
+    <string name="chosenCup">chosenCup</string>
+    <string name="todayGoalDoneString">Сегодняшняя цель выполнена!\nТак держать!\n</string>
+    <string name="PlusWaterButtonText">+</string>
+    <string name="ClearWaterButtonText">Обнулить</string>
+    <string name="DrankTodayTextView">Выпито сегодня</string>
+    <string name="ChangeCupButtonText">сменить чашку</string>
+    <string name="PickCupTextView">Выберите чашку</string>
+    <string name="pickTimeIntervalButtonText">Интервал</string>
+</resources>
