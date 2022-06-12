@@ -43,11 +43,12 @@ class TimePickerFragment: DialogFragment(), TimePickerDialog.OnTimeSetListener{
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         val c = Calendar.getInstance()
+        c.set(Calendar.SECOND, 0)
+        c.set(Calendar.MILLISECOND, 0)
         c.set(Calendar.HOUR_OF_DAY, hourOfDay)
         c.set(Calendar.MINUTE, minute)
         val fragNumber = this.arguments?.getInt("editText")
 
         mListener?.onComplete(fragNumber, c)
-
     }
 }

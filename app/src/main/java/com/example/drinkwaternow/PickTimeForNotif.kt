@@ -1,7 +1,11 @@
 package com.example.drinkwaternow
 
+import android.app.AlarmManager
 import android.app.AlertDialog.THEME_HOLO_LIGHT
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -68,7 +72,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         val intervalTextView = findViewById<TextView>(R.id.intervalTextView)
         val intervalChangeButton = findViewById<Button>(R.id.intervalChangeButton)
 
-        //TODO сделать нормальный таймпикер, ограниченный по часам и минутам, кратным 5
+        //TODO сделать нормальный таймпикер интервала уведомлений, ограниченный по часам и минутам, кратным 5
         fun showIntervalTimePicker(view: View?) {
             val onTimeSetListener =
                 TimePickerDialog.OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
@@ -114,6 +118,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             newFragment.show(supportFragmentManager, "timePicker")
             //showTimePickerDialog(it)
         }
+
         toTimeEditText.setOnClickListener{
             val bundle = Bundle()
             bundle.putInt("editText", 1)
@@ -122,6 +127,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             newFragment.show(supportFragmentManager, "timePicker")
             //showTimePickerDialog(it)
         }
+
         intervalChangeButton.setOnClickListener{
             showIntervalTimePicker(it)
         }
@@ -142,6 +148,34 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             val fromTimeEditText2 = findViewById<EditText>(R.id.editTextToTime)
             fromTimeEditText2.setText("$toHour : $toMinute")
             saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
+            scheduleNotification(toHour, toMinute)
         }
+    }
+
+    private fun scheduleNotification(toHour:Int, toMinute:Int){
+        val intent = Intent(applicationContext, Notification::class.java)
+        val textTitle = "Пришло время пить воду!"
+        val textContent = "Нажмите сюда, чтобы открыть приложение."
+        intent.putExtra(titleExtra,textTitle)
+        intent.putExtra(messageExtra, textContent)
+
+        val pendingIntent=PendingIntent.getBroadcast(
+            applicationContext,
+            notificationID,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        calendar.set(Calendar.HOUR_OF_DAY, toHour)
+        calendar.set(Calendar.MINUTE, toMinute)
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val time = calendar.timeInMillis
+        val alarmClockInfo = AlarmManager.AlarmClockInfo(time, pendingIntent)
+        alarmManager.setAlarmClock(alarmClockInfo,pendingIntent)
+
     }
 }
