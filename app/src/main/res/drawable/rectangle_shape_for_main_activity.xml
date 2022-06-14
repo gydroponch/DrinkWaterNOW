@@ -4,7 +4,7 @@
     <corners android:radius="3dp"/>
     <solid android:color="@color/white"/>
     <!-- TODO прямоугольник с синей обводкой или без? -->
-    <stroke android:width="0dp"
+    <stroke android:width="1dp"
         android:color="@color/blueForStatusBar">
     </stroke>
     <size

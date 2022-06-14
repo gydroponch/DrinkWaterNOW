@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorOnPrimary">
-
+    android:background="@color/appBackground">
 
 
     <EditText
@@ -14,11 +13,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="124dp"
+        android:backgroundTint="@color/darkerBlueForStatusBar"
         android:ems="10"
-        android:inputType="none"
-        android:textColor="@color/grayForTodayCounterText"
-        android:textIsSelectable="false"
         android:focusableInTouchMode="false"
+        android:inputType="none"
+        android:textColor="@color/blueForStatusBar"
+        android:textIsSelectable="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -31,7 +31,8 @@
         android:layout_marginRight="44dp"
         android:ems="10"
         android:inputType="none"
-        android:textColor="@color/grayForTodayCounterText"
+        android:backgroundTint="@color/darkerBlueForStatusBar"
+        android:textColor="@color/blueForStatusBar"
         android:textIsSelectable="false"
         android:focusableInTouchMode="false"
         app:layout_constraintRight_toRightOf="parent"
@@ -42,8 +43,8 @@
         android:id="@+id/intervalChangeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="232dp"
         android:text="@string/pickTimeIntervalButtonText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -52,10 +53,10 @@
         android:id="@+id/intervalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="36dp"
         android:text="Выберите интервал напоминаний"
-        android:textColor="@color/gray"
+        android:textColor="@color/blueForStatusBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextFromTime" />
 

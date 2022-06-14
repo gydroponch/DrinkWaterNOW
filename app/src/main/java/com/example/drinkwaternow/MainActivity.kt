@@ -6,20 +6,17 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.AudioAttributes
-import android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 
 
 class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener {
@@ -32,14 +29,13 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     private var isAnimationFinished = true
     private var cupsList = listOf(200, 250, 500, 1000  /*, 0*/)
     private var todayGoalDone = false
-
+    val CHANNEL_ID = "DEF_CHANNEL"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
         //уведомления
-        val CHANNEL_ID = "DEF_CHANNEL"
         createNotificationChannel(CHANNEL_ID)
         //val notificationBuilder = getNotificationBuilder(CHANNEL_ID)
 
@@ -141,8 +137,6 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         }
     }
 
-
-
     override fun sendInput(input: String) {
         //выбранная чашка
         progressAmount=input.toInt()
@@ -194,22 +188,25 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         //канал для уведомлений
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            //notificationManager.deleteNotificationChannel("DEF_CHANNEL")
+
+            val channelName = "Напоминания"
             val channel = NotificationChannel(
-                CHANNEL_ID, "Напоминания",
+                CHANNEL_ID,
+                channelName,
                 NotificationManager.IMPORTANCE_HIGH
             )
             val attr = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
                 .build()
-            val sound = Uri.parse("android.resource://" + applicationContext.packageName + "/" + R.raw.notification_water_2)
-            channel.description = "Включает в себя уведомления с напоминанием выпить воду"
+            val sound = Uri.parse("android.resource://" + applicationContext.packageName + "/" + R.raw.notification_water_sound)
+            channel.description = "Уведомления с напоминанием выпить воду"
             channel.enableLights(true)
-            channel.lightColor = Color.WHITE
-            channel.enableVibration(false)
-            channel.setSound(sound, attr);
+            channel.setSound(sound, attr)
             notificationManager.createNotificationChannel(channel)
         }
     }
+
     /*
     private fun getNotificationBuilder(CHANNEL_ID: String): NotificationCompat.Builder {
         //текст и содержимое уведомления

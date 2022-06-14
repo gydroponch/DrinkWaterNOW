@@ -77,6 +77,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
 
         loadTimeFromInternalStorage()
         loadTimeIntervalFromInternalStorage()
+        saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
 
         intervalTextView.text="уведомления через каждые $intervalMinutes минут"
         fromTimeEditText.setText("$fromHour : $fromMinute")

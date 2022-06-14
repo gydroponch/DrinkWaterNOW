@@ -2,6 +2,7 @@
     <style name="TimePickerFragmentTheme" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/darkerBlueForStatusBar</item>
         <item name="colorControlNormal">@color/blueForStatusBar</item>
+        <item name="colorOnPrimary">@color/darkerBlueForStatusBar</item>
     </style>
     <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
