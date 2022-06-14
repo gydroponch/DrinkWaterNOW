@@ -1,40 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@android:id/progress">
-        <rotate
-            android:fromDegrees="180"
-            android:pivotX="50%"
-            android:pivotY="25%"
-            android:toDegrees="180">
-            <shape
-                android:innerRadiusRatio="2.13"
-                android:shape="ring"
-                android:thickness="9dp"
-                android:thicknessRatio="20.0">
-
-                <gradient
-                    android:type="sweep"
-                    android:useLevel="true"
-                    android:startColor="@color/lighterBlueForStatusBar"
-                    android:endColor="@color/darkerBlueForStatusBar"
-                    android:centerColor="@color/blueForStatusBar"
-                    />
-            </shape>
-        </rotate>
-    </item>
-
-    <item>
-        <shape android:shape="rectangle">
-            <size
-                android:height="150dp"
-                android:width="300dp" />
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="5dp"/>
             <stroke
-                android:width="63dp"
-                android:color="@color/white" />
-            <padding
-                android:top="150dp"/>
+                android:width="10dp"
+                android:color="@color/progressBarBackground" />
         </shape>
     </item>
+
+    <item android:id="@android:id/progress">
+        <clip
+            android:clipOrientation="horizontal"
+            android:gravity="start">
+            <shape>
+                <corners android:radius="10dp"/>
+
+                <gradient
+                    android:type="linear"
+                    android:useLevel="false"
+                    android:startColor="@color/lighterBlueForStatusBar"
+                    android:centerColor="@color/blueForStatusBar"
+                    android:endColor="@color/darkerBlueForStatusBar"
+                    />
+            </shape>
+        </clip>
+    </item>
+
 </layer-list>
 

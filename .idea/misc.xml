@@ -5,9 +5,12 @@
       <map>
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/button_changesize_onclick.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/cup_icon_200ml.xml" value="0.248" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_baseline_local_drink_24.xml" value="0.27" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_outline_delete_forever_24.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_outline_local_drink_24.xml" value="0.3725" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/rectangle_shape_for_main_activity.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/round_shape_for_main_activity.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/rounded_button.xml" value="0.3715" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/water_progressbar.xml" value="0.22" />

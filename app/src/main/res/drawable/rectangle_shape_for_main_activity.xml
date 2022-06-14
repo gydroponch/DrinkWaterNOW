@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-
+    android:shape="rectangle">
+    <corners android:radius="3dp"/>
     <solid android:color="@color/white"/>
-
+    <!-- TODO прямоугольник с синей обводкой или без? -->
     <stroke android:width="0dp"
-        android:color="@color/white"
-        >
+        android:color="@color/blueForStatusBar">
     </stroke>
-
     <size
         android:width="250dp"
-        android:height="250dp"/>
-
+        android:height="50dp"/>
 </shape>

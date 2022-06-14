@@ -8,7 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#FFADADAD</color>
+    <color name="lighterGrayForBorders">#CFCFCF</color>
     <color name="grayForTodayCounterText">#FF7A7A7A</color>
+    <color name="progressBarBackground">#BAD9FF</color>
+    <color name="progressBarStart">#99c7ff</color>
+    <color name="progressBarCenter">#FF519EFD</color>
+    <color name="progressBarEnd">#FF177fff</color>
     <color name="lighterBlueForStatusBar">#99c7ff</color>
     <color name="blueForStatusBar">#FF519EFD</color>
     <color name="darkerBlueForStatusBar">#FF177fff</color>

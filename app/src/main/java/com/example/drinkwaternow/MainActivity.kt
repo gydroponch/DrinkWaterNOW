@@ -10,6 +10,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioAttributes
+import android.media.AudioAttributes.USAGE_NOTIFICATION_EVENT
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.animation.DecelerateInterpolator
@@ -37,11 +40,11 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
 
         //уведомления
         val CHANNEL_ID = "DEF_CHANNEL"
-        //createNotificationChannel(CHANNEL_ID)
+        createNotificationChannel(CHANNEL_ID)
         //val notificationBuilder = getNotificationBuilder(CHANNEL_ID)
 
         val addWaterButton = findViewById<Button>(R.id.addWaterButton)
-        val pickTimeForNotifActivityButton = findViewById<Button>(R.id.pickTimeForNotifActivityButton)
+        val pickTimeForNotifActivityButton = findViewById<ImageButton>(R.id.pickTimeForNotifActivityButton)
         val clearWaterButton = findViewById<ImageButton>(R.id.zeroWaterButton)
         val changeCupButton = findViewById<ImageButton>(R.id.changeCupButton)
         val drankWaterTextView = findViewById<TextView>(R.id.drankWaterTextView)
@@ -52,9 +55,19 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
             return drankToday >= todayGoal
         }
 
+        fun showTodayGoalDoneToast(){
+            if (isTodayGoalDone()) {
+                //displayTodayGoalDone()
+                if (!todayGoalDone){
+                    Toast.makeText(applicationContext, getString(R.string.todayGoalDoneString), Toast.LENGTH_SHORT).show()
+                    todayGoalDone = true
+                }
+            }
+        }
+
         //увеличение прогресса прогрессбара с анимацией
         fun updateProgressBar(progress: Int){
-            val increaseAmount = ((progress.toDouble()/todayGoal.toDouble())*100).toInt()
+            val increaseAmount = (((progress.toDouble()/todayGoal.toDouble())*100)*2).toInt()
             val progressBarIncreaseTo = todayWaterProgressBar.progress + increaseAmount*100
 
             //TODO убрать строчки для дебага
@@ -76,11 +89,13 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
                 animation.addListener( object: AnimatorListenerAdapter(){
                     override fun onAnimationEnd(animation: Animator?) {
                         isAnimationFinished = true
+                        showTodayGoalDoneToast()
                     }
                 } )
                 animation.start()
             }
         }
+
         //обновление счётчика воды
         fun updateCountTextDisplay (progress: Int){
             val displayedText = "$drankToday из $todayGoal мл"
@@ -88,22 +103,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
             updateProgressBar(progress)
             //увеличение прогресса прогрессбара без анимации
             //todayWaterProgressBar.progress = (clickCounter.toDouble()/TODAY_GOAL.toDouble()*100).toInt()
-            if (isTodayGoalDone()) {
-                //displayTodayGoalDone()
-                if (!todayGoalDone){
 
-                    Toast.makeText(applicationContext, getString(R.string.todayGoalDoneString), Toast.LENGTH_SHORT).show()
-                    //отображение уведомления
-                    //TODO убрать отсюда уведомление
-                    /*
-                    with(NotificationManagerCompat.from(this)) {
-                      // notificationId is a unique int for each notification that you must define
-                     notify(0, notificationBuilder.build())
-                    }
-                    */
-                    todayGoalDone = true
-                }
-            }
         }
 
         drankToday = loadWaterCountToInternalStorage()
@@ -190,23 +190,27 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         return sharedPref.getInt(getString(R.string.todayGoal), 2500)
     }
 
-    /*
     private fun createNotificationChannel(CHANNEL_ID: String){
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         //канал для уведомлений
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val channel = NotificationChannel(
                 CHANNEL_ID, "Напоминания",
                 NotificationManager.IMPORTANCE_HIGH
             )
+            val attr = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                .build()
+            val sound = Uri.parse("android.resource://" + applicationContext.packageName + "/" + R.raw.notification_water_2)
             channel.description = "Включает в себя уведомления с напоминанием выпить воду"
             channel.enableLights(true)
             channel.lightColor = Color.WHITE
             channel.enableVibration(false)
+            channel.setSound(sound, attr);
             notificationManager.createNotificationChannel(channel)
         }
     }
-
+    /*
     private fun getNotificationBuilder(CHANNEL_ID: String): NotificationCompat.Builder {
         //текст и содержимое уведомления
         val textTitle = "Пришло время пить воду!"

@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.app.NotificationCompat
 
 const val notificationID=1
@@ -35,6 +36,7 @@ class Notification : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            //.setSound(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.notification_water_2))
             .build()
 
         //TODO разобраться че тут такое

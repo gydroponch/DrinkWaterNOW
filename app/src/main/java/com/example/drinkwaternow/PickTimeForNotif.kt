@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -80,7 +81,10 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         intervalTextView.text="уведомления через каждые $intervalMinutes минут"
         fromTimeEditText.setText("$fromHour : $fromMinute")
         toTimeEditText.setText("$toHour : $toMinute")
+        fromTimeEditText.inputType = InputType.TYPE_NULL
+        toTimeEditText.inputType = InputType.TYPE_NULL
 
+        //TODO поправить костыль с долгим отображением таймпикера
         fromTimeEditText.setOnClickListener{
             val bundle = Bundle()
             bundle.putInt("editText", 0)
@@ -175,7 +179,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         var iNotificationHour = fromHour
-        var iNotificationMinute = toMinute
+        val iNotificationMinute = toMinute
         val notificationsCount = toHour - fromHour
         //РАСПРЕДЕЛЕНИЕ НАПОМИНАНИЙ
         //TODO Сделать нормальное распределение напоминаний

@@ -1,8 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <style name="TimePickerFragmentTheme" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/darkerBlueForStatusBar</item>
+        <item name="colorControlNormal">@color/blueForStatusBar</item>
+    </style>
     <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
-        <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/blueForStatusBar</item>
         <item name="colorPrimaryVariant">@color/darkerBlueForStatusBar</item>

@@ -9,136 +9,6 @@
     android:background="@color/white"
     android:clipToPadding="false">
 
-    <Button
-        android:id="@+id/pickTimeForNotifActivityButton"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="760dp"
-        android:background="@drawable/rounded_button"
-        android:elevation="4dp"
-        android:text="🔔"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ProgressBar
-        android:id="@+id/todayWaterProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@drawable/water_progressbar_background"
-        android:clipToPadding="false"
-        android:elevation="4dp"
-        android:max="20000"
-        android:progress="0"
-        android:progressDrawable="@drawable/water_progressbar"
-        app:layout_constraintBottom_toTopOf="@+id/addWaterButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/addWaterButton"
-        android:layout_width="60sp"
-        android:layout_height="60sp"
-        android:background="@drawable/rounded_button"
-        android:text="@string/PlusWaterButtonText"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnPrimary"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.588" />
-
-    <ImageView
-        android:id="@+id/backgroundCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/round_shape_for_main_activity"
-        android:clipToPadding="false"
-        android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/todayWaterProgressBar"
-        app:layout_constraintEnd_toEndOf="@+id/todayWaterProgressBar"
-        app:layout_constraintStart_toStartOf="@+id/todayWaterProgressBar"
-        app:layout_constraintTop_toTopOf="@+id/todayWaterProgressBar"
-        app:layout_constraintVertical_bias="0.52"
-        app:srcCompat="@drawable/round_shape_for_main_activity" />
-
-    <ImageButton
-        android:id="@+id/changeCupButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:background="@color/backgroundForVectorButton"
-        android:src="@drawable/ic_outline_local_drink_24"
-        android:text="@string/ChangeCupButtonText"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
-        app:layout_constraintStart_toEndOf="@+id/addWaterButton"
-        app:layout_constraintTop_toBottomOf="@+id/todayWaterProgressBar"
-        app:layout_constraintVertical_bias="0.003" />
-
-    <ImageButton
-        android:id="@+id/zeroWaterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="332dp"
-        android:background="@color/backgroundForVectorButton"
-        android:src="@drawable/ic_outline_delete_forever_24"
-        android:text="@string/ClearWaterButtonText"
-        android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/addWaterButton"
-        app:layout_constraintHorizontal_bias="0.869"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/todayWaterProgressBar"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/drankWaterTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        android:text="@string/DrankTodayTextView"
-        android:textAlignment="center"
-        android:textColor="@color/darkerBlueForStatusBar"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/backgroundCircle"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="@+id/backgroundCircle"
-        app:layout_constraintRight_toRightOf="@+id/backgroundCircle"
-        app:layout_constraintTop_toTopOf="@+id/backgroundCircle"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <TextView
-        android:id="@+id/goalDoneTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="5dp"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/drankWaterTextView"
-        app:layout_constraintEnd_toEndOf="@+id/backgroundCircle"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/backgroundCircle"
-        app:layout_constraintTop_toTopOf="@+id/backgroundCircle"
-        app:layout_constraintVertical_bias="0.85" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -147,7 +17,136 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:title="Попей водички"
+        app:titleTextColor="?attr/colorOnPrimary"
+        tools:layout_editor_absoluteX="145dp" />
+
+    <ImageButton
+        android:id="@+id/pickTimeForNotifActivityButton"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:background="@color/backgroundForVectorButton"
+        android:elevation="4dp"
+        android:src="@drawable/ic_baseline_notifications_24"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageButton
+        android:id="@+id/zeroWaterButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/backgroundForVectorButton"
+        android:src="@drawable/ic_baseline_delete_24"
+        android:text="@string/ClearWaterButtonText"
+
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toStartOf="@+id/pickTimeForNotifActivityButton"
+        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.666" />
+
+    <ImageView
+        android:id="@+id/backgroundRectangle"
+        android:layout_width="360dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rectangle_shape_for_main_activity"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <ProgressBar
+        android:id="@+id/todayWaterProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="15dp"
+        android:elevation="6dp"
+        android:max="20000"
+        android:progress="0"
+        android:progressDrawable="@drawable/water_progressbar"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundRectangle"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.661" />
+
+    <TextView
+        android:id="@+id/drankWaterTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:text="@string/DrankTodayTextView"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/darkerBlueForStatusBar"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/todayWaterProgressBar"
+        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintLeft_toLeftOf="@+id/backgroundRectangle"
+        app:layout_constraintRight_toRightOf="@+id/backgroundRectangle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/goalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:text="@string/goal"
+        android:textAlignment="center"
+        android:textColor="@color/darkerBlueForStatusBar"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/todayWaterProgressBar"
+        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintLeft_toLeftOf="@+id/backgroundRectangle"
+        app:layout_constraintRight_toRightOf="@+id/backgroundRectangle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/addWaterButton"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/PlusWaterButtonText"
+        android:elevation="5dp"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.032" />
+
+    <ImageButton
+        android:id="@+id/changeCupButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/backgroundForVectorButton"
+        android:src="@drawable/ic_baseline_local_drink_24"
+        android:text="@string/ChangeCupButtonText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintStart_toEndOf="@+id/addWaterButton"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.045" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
