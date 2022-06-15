@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="?attr/colorPrimaryVariant" />
+    <solid android:color="@color/darkerBlueForStatusBar" />
     <corners android:bottomRightRadius="360dp"
         android:bottomLeftRadius="360dp"
         android:topRightRadius="360dp"

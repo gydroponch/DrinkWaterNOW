@@ -25,16 +25,16 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
     private val SAVED_FROM_MINUTE = "SavedFromMinute"
     private val SAVED_TO_HOUR = "SavedToHour"
     private val SAVED_TO_MINUTE = "SavedToMinute"
-    private val INTERVAL = "Interval"
+    private val INTERVALH = "IntervalH"
+    private val INTERVALM = "IntervalM"
 
     private var fromHour = 9
     private var fromMinute = 0
     private var toHour = 23
     private var toMinute = 0
 
-    private var intervalHour = 99
-    private var intervalMinute = 99
-    private var intervalMinutes = 60
+    private var intervalHour = 1
+    private var intervalMinute = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +63,10 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
                         intervalHour = 1
                         intervalMinute = 0
                     }
-                    intervalMinutes = (intervalHour*60 + intervalMinute)
-                    intervalTextView!!.text = String.format(Locale.getDefault(), "уведомления через каждые %02d минут", intervalMinutes)
-                    saveTimeIntervalToInternalStorage(intervalMinutes)
+                    intervalTextView!!.text = String.format(Locale.getDefault(), "уведомления через каждые %02d минут", intervalMinutesCompute())
+                    saveTimeIntervalToInternalStorage(intervalHour, intervalMinute)
+                    //распределение уведомлений
+                    scheduleNotification()
                 }
 
             val style = THEME_HOLO_LIGHT
@@ -78,8 +79,10 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         loadTimeFromInternalStorage()
         loadTimeIntervalFromInternalStorage()
         saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
+        //распределение уведомлений
+        scheduleNotification()
 
-        intervalTextView.text="уведомления через каждые $intervalMinutes минут"
+        intervalTextView.text="уведомления через каждые ${intervalMinutesCompute()} минут"
         fromTimeEditText.setText("$fromHour : $fromMinute")
         toTimeEditText.setText("$toHour : $toMinute")
         fromTimeEditText.inputType = InputType.TYPE_NULL
@@ -118,7 +121,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             fromTimeEditText.setText("$fromHour : $fromMinute")
             saveTimeToInternalStorage(SAVED_FROM_HOUR, SAVED_FROM_MINUTE, fromHour, fromMinute)
             //распределение уведомлений
-            scheduleNotification(toHour, toMinute)
+            scheduleNotification()
         }
         else if (fragNumber==1) {
             toHour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -127,7 +130,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             fromTimeEditText2.setText("$toHour : $toMinute")
             saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
             //распределение уведомлений
-            scheduleNotification(toHour, toMinute)
+            scheduleNotification()
         }
     }
 
@@ -140,10 +143,11 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         }
     }
 
-    private fun saveTimeIntervalToInternalStorage(interval:Int){
+    private fun saveTimeIntervalToInternalStorage(intervalH:Int, intervalM:Int){
         val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
         with (sharedPref.edit()){
-            putInt(INTERVAL, interval)
+            putInt(INTERVALH, intervalH)
+            putInt(INTERVALM, intervalM)
             apply()
         }
     }
@@ -158,58 +162,79 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
 
     private fun loadTimeIntervalFromInternalStorage() {
         val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
-        intervalMinutes = sharedPref.getInt(INTERVAL, 60)
+        intervalHour = sharedPref.getInt(INTERVALH, 1)
+        intervalMinute = sharedPref.getInt(INTERVALM, 0)
     }
 
-    private fun scheduleNotification(toHour:Int, toMinute:Int){
+    private fun scheduleNotification(){
         val intent = Intent(applicationContext, Notification::class.java)
         val textTitle = "Пришло время пить воду!"
         val textContent = "Нажмите сюда, чтобы открыть приложение."
         intent.putExtra(titleExtra,textTitle)
         intent.putExtra(messageExtra, textContent)
-
-        val calendar = Calendar.getInstance()
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-        calendar.set(Calendar.YEAR, currentYear)
-        calendar.set(Calendar.MONTH, currentMonth)
-        calendar.set(Calendar.DAY_OF_MONTH, currentDay)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        var iNotificationHour = fromHour
-        val iNotificationMinute = toMinute
-        val notificationsCount = toHour - fromHour
-        //РАСПРЕДЕЛЕНИЕ НАПОМИНАНИЙ
-        //TODO Сделать нормальное распределение напоминаний
-        for (i in 0..notificationsCount){
+        val calendar = Calendar.getInstance()
 
-            val pendingIntent=PendingIntent.getBroadcast(
-                applicationContext,
-                i,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            if (iNotificationHour*60+toMinute >= calendar.get(Calendar.HOUR_OF_DAY)*60+toMinute) {
-                calendar.set(Calendar.HOUR_OF_DAY, iNotificationHour)
-                calendar.set(Calendar.MINUTE, toMinute)
-                val time = calendar.timeInMillis
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        val calendarTo = Calendar.getInstance()
+        val calendarFrom = Calendar.getInstance()
+        calendarTo.set(Calendar.HOUR_OF_DAY,toHour)
+        calendarTo.set(Calendar.MINUTE,toMinute)
+        calendarFrom.set(Calendar.HOUR_OF_DAY,fromHour)
+        calendarFrom.set(Calendar.MINUTE,fromMinute)
+
+
+        var timeToSetOn = calendar.timeInMillis
+        val intervalInMillis = intervalMillisCompute()
+        val fromInMillis = fromHour * 3600000 + fromMinute*60000
+        val toInMillis = toHour * 3600000 + toMinute*60000
+        val notificationsCount = ((toInMillis-fromInMillis)/intervalInMillis)
+        println("_______calendar from time: " + calendarFrom.time)
+        println("_______calendar to time: " + calendarTo.time)
+        println("_______calendar time: " + calendar.time)
+        println("_______calendar interval millis: " + intervalMillisCompute())
+        println("____________________NOTIFICATION COUNT:   " + notificationsCount)
+
+        //РАСПРЕДЕЛЕНИЕ НАПОМИНАНИЙ
+        //TODO Сделать нормальное распределение напоминаний, вызывать его при запуске приложения + в начале суток + после ребута
+        var iCurrentTime = calendarFrom.timeInMillis
+        var iStart = 0
+        for (i in 0..notificationsCount){
+            if (iCurrentTime >= calendar.timeInMillis) {
+                val pendingIntent=PendingIntent.getBroadcast(
+                    applicationContext,
+                    i,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+                timeToSetOn += intervalInMillis.toLong()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
-                        time,
+                        timeToSetOn,
                         pendingIntent
                     )
                 }
-                println("_________i: " + i)
-                println("iHour: " + iNotificationHour)
-                println("iMinute: " + iNotificationMinute)
-                println("millis: " + time)
+                //дебаг
+                val cal = Calendar.getInstance()
+                cal.timeInMillis=timeToSetOn
+                iStart++
+                println("_________\nnotif#: " + iStart)
+                println("Hour: " + cal.time)
+                println("millis: " + timeToSetOn)
             }
-            iNotificationHour++
+            iCurrentTime += intervalInMillis.toLong()
         }
+    }
 
+    private fun intervalMinutesCompute():Int{
+        return intervalHour*60+intervalMinute
+    }
+
+    private fun intervalMillisCompute():Int{
+        return intervalHour*3600000+intervalMinute*60000
     }
 }
