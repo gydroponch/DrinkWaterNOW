@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/appBackground">
+    android:background="@color/appBackground"
+    android:theme="@style/Theme.drinkwaternow">
 
     <ImageView
         android:id="@+id/backgroundRectangle"
         android:layout_width="360dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rectangle_shape_for_main_activity"
         android:clipToPadding="false"
@@ -23,8 +24,8 @@
         android:id="@+id/editTextFromTime"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/blueForStatusBar"
         android:elevation="5dp"
         android:ems="10"
@@ -33,16 +34,42 @@
         android:outlineProvider="none"
         android:textColor="@color/darkerBlueForStatusBar"
         android:textIsSelectable="false"
-        app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
+        app:layout_constraintStart_toEndOf="@+id/intervalTextView3"
         app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/intervalTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:elevation="5dp"
+        android:text="от"
+        android:textColor="@color/blueForStatusBar"
+        app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle" />
+
+    <TextView
+        android:id="@+id/intervalTextView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:elevation="5dp"
+        android:text="до"
+        android:textColor="@color/blueForStatusBar"
+        app:layout_constraintEnd_toStartOf="@+id/editTextToTime"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toEndOf="@+id/editTextFromTime"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle" />
 
     <EditText
         android:id="@+id/editTextToTime"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/blueForStatusBar"
         android:elevation="5dp"
         android:ems="10"
@@ -60,11 +87,12 @@
         android:id="@+id/intervalChangeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/darkerBlueForStatusBar"
         android:elevation="5dp"
         android:text="@string/pickTimeIntervalButtonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.060"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle" />
 
@@ -72,13 +100,25 @@
         android:id="@+id/intervalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:elevation="5dp"
         android:text="Выберите интервал напоминаний"
         android:textColor="@color/darkerBlueForStatusBar"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
         app:layout_constraintTop_toBottomOf="@+id/editTextFromTime" />
+
+    <TextView
+        android:id="@+id/intervalTextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="5dp"
+        android:text="Время напоминаний"
+        android:textColor="@color/blueForStatusBar"
+        app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarPickTime"
@@ -92,5 +132,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Уведомления"
         app:titleTextColor="?attr/colorOnPrimary" />
+
+    <ImageButton
+        android:id="@+id/turnOffNotificationsButton"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:background="@color/backgroundForVectorButton"
+        android:elevation="4dp"
+        android:src="@drawable/ic_baseline_notifications_off_24"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbarPickTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.976"
+        app:layout_constraintStart_toStartOf="@+id/toolbarPickTime"
+        app:layout_constraintTop_toTopOf="@+id/toolbarPickTime"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="314dp"
+        android:layout_height="255dp"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="294dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

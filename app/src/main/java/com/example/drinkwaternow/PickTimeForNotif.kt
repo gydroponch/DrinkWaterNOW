@@ -10,11 +10,10 @@ import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
@@ -27,6 +26,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
     private val SAVED_TO_MINUTE = "SavedToMinute"
     private val INTERVALH = "IntervalH"
     private val INTERVALM = "IntervalM"
+    private val NOTIFICATIONS = "Notifications"
 
     private var fromHour = 9
     private var fromMinute = 0
@@ -36,6 +36,8 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
     private var intervalHour = 1
     private var intervalMinute = 0
 
+    private var notificationsOn = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pick_time_activity)
@@ -43,44 +45,17 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         val toTimeEditText = findViewById<EditText>(R.id.editTextToTime)
         val intervalTextView = findViewById<TextView>(R.id.intervalTextView)
         val intervalChangeButton = findViewById<Button>(R.id.intervalChangeButton)
+        val turnOffNotificationsButton = findViewById<ImageButton>(R.id.turnOffNotificationsButton)
 
-        //TODO сделать нормальный таймпикер интервала уведомлений, ограниченный по часам и минутам, кратным 5
-        fun showIntervalTimePicker(view: View?) {
-            val onTimeSetListener =
-                TimePickerDialog.OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
-                    if ((selectedHour*60 +selectedMinute) < 180) {
-                            intervalHour = selectedHour
-                        if (selectedMinute % 5 == 0) {
-                            intervalMinute = selectedMinute
-                        }
-                        else {
-                            intervalMinute = 0
-                            Toast.makeText(this, "Выберите число минут, кратное 5!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                    else {
-                        Toast.makeText(this, "Выберите не более 3-х часов!", Toast.LENGTH_SHORT).show()
-                        intervalHour = 1
-                        intervalMinute = 0
-                    }
-                    intervalTextView!!.text = String.format(Locale.getDefault(), "уведомления через каждые %02d минут", intervalMinutesCompute())
-                    saveTimeIntervalToInternalStorage(intervalHour, intervalMinute)
-                    //распределение уведомлений
-                    scheduleNotification()
-                }
-
-            val style = THEME_HOLO_LIGHT
-            val timePickerDialog =
-                TimePickerDialog(this,  style, onTimeSetListener, intervalHour, intervalMinute, true)
-            timePickerDialog.setTitle("Выберите интервал")
-            timePickerDialog.show()
-        }
-
+        loadNotificationsStateFromInternalStorage()
         loadTimeFromInternalStorage()
         loadTimeIntervalFromInternalStorage()
         saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
-        //распределение уведомлений
-        scheduleNotification()
+
+        if(notificationsOn)
+        turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_outline_notifications_24))
+        else
+        turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_notifications_off_24))
 
         intervalTextView.text="уведомления через каждые ${intervalMinutesCompute()} минут"
         fromTimeEditText.setText("$fromHour : $fromMinute")
@@ -88,27 +63,76 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         fromTimeEditText.inputType = InputType.TYPE_NULL
         toTimeEditText.inputType = InputType.TYPE_NULL
 
+        //TODO сделать нормальный таймпикер интервала уведомлений, ограниченный по часам и минутам, кратным 5
+        fun showIntervalTimePicker(view: View?) {
+            val onTimeSetListener =
+                TimePickerDialog.OnTimeSetListener { timePicker, selectedHour, selectedMinute ->
+                    if ((selectedHour*60 +selectedMinute) <= 180) {
+                        intervalHour = selectedHour
+                        intervalMinute = selectedMinute
+                    }
+                    else {
+                        Toast.makeText(this, "Выберите не более 3-х часов!", Toast.LENGTH_SHORT).show()
+                        intervalHour = 3
+                        intervalMinute = 0
+                    }
+                    intervalTextView!!.text = String.format(Locale.getDefault(), "уведомления через каждые %02d минут", intervalMinutesCompute())
+                    saveTimeIntervalToInternalStorage(intervalHour, intervalMinute)
+                    //распределение уведомлений
+                    scheduleNotifications(1)
+                }
+            val style = THEME_HOLO_LIGHT
+            val timePickerDialog =
+                TimePickerDialog(this,  style, onTimeSetListener, intervalHour, intervalMinute, true)
+            timePickerDialog.setTitle("Выберите интервал")
+            timePickerDialog.show()
+        }
+
         //TODO поправить костыль с долгим отображением таймпикера
         fromTimeEditText.setOnClickListener{
-            val bundle = Bundle()
-            bundle.putInt("editText", 0)
-            val newFragment: DialogFragment = TimePickerFragment()
-            newFragment.arguments = bundle
-            newFragment.show(supportFragmentManager, "timePicker")
-            //showTimePickerDialog(it)
+            if (notificationsOn) {
+                val bundle = Bundle()
+                bundle.putInt("editText", 0)
+                val newFragment: DialogFragment = TimePickerFragment()
+                newFragment.arguments = bundle
+                newFragment.show(supportFragmentManager, "timePicker")
+                //showTimePickerDialog(it)
+            }
+            else Toast.makeText(this, "Сначала включите уведомления!", Toast.LENGTH_SHORT).show()
         }
 
         toTimeEditText.setOnClickListener{
-            val bundle = Bundle()
-            bundle.putInt("editText", 1)
-            val newFragment: DialogFragment = TimePickerFragment()
-            newFragment.arguments = bundle
-            newFragment.show(supportFragmentManager, "timePicker")
-            //showTimePickerDialog(it)
+            if (notificationsOn) {
+                val bundle = Bundle()
+                bundle.putInt("editText", 1)
+                val newFragment: DialogFragment = TimePickerFragment()
+                newFragment.arguments = bundle
+                newFragment.show(supportFragmentManager, "timePicker")
+                //showTimePickerDialog(it)
+            }
+            else Toast.makeText(this, "Сначала включите уведомления!", Toast.LENGTH_SHORT).show()
         }
 
         intervalChangeButton.setOnClickListener{
+            if (notificationsOn)
             showIntervalTimePicker(it)
+            else Toast.makeText(this, "Сначала включите уведомления!", Toast.LENGTH_SHORT).show()
+        }
+
+        turnOffNotificationsButton.setOnClickListener{
+            if (notificationsOn) {
+                notificationsOn=false
+                turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_notifications_off_24))
+                Toast.makeText(this, "Уведомления выключены!", Toast.LENGTH_SHORT).show()
+                scheduleNotifications(0)
+            }
+            else {
+                notificationsOn=true
+                turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_outline_notifications_24))
+                Toast.makeText(this, "Уведомления включены!", Toast.LENGTH_SHORT).show()
+                scheduleNotifications(1)
+            }
+            saveNotificationsStateToInternalStorage()
         }
     }
 
@@ -121,7 +145,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             fromTimeEditText.setText("$fromHour : $fromMinute")
             saveTimeToInternalStorage(SAVED_FROM_HOUR, SAVED_FROM_MINUTE, fromHour, fromMinute)
             //распределение уведомлений
-            scheduleNotification()
+            scheduleNotifications(1)
         }
         else if (fragNumber==1) {
             toHour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -130,7 +154,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
             fromTimeEditText2.setText("$toHour : $toMinute")
             saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
             //распределение уведомлений
-            scheduleNotification()
+            scheduleNotifications(1)
         }
     }
 
@@ -152,6 +176,23 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         }
     }
 
+    private fun saveNotificationsStateToInternalStorage(){
+        val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
+        var oneOrZero = 1
+        if (!notificationsOn) oneOrZero = 0
+        with (sharedPref.edit()){
+            putInt(NOTIFICATIONS, oneOrZero)
+            apply()
+        }
+    }
+
+    private fun loadNotificationsStateFromInternalStorage() {
+        val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
+        val oneOrZero = sharedPref.getInt(NOTIFICATIONS, 1)
+        if (oneOrZero == 1) notificationsOn = true
+            else notificationsOn = false
+    }
+
     private fun loadTimeFromInternalStorage() {
         val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
         fromHour = sharedPref.getInt(SAVED_FROM_HOUR, 9)
@@ -166,11 +207,12 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         intervalMinute = sharedPref.getInt(INTERVALM, 0)
     }
 
-    private fun scheduleNotification(){
+    //TODO сделать выключение уведомлений
+    private fun scheduleNotifications(check: Int){
         val intent = Intent(applicationContext, Notification::class.java)
         val textTitle = "Пришло время пить воду!"
         val textContent = "Нажмите сюда, чтобы открыть приложение."
-        intent.putExtra(titleExtra,textTitle)
+        intent.putExtra(titleExtra, textTitle)
         intent.putExtra(messageExtra, textContent)
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -181,17 +223,19 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
 
         val calendarTo = Calendar.getInstance()
         val calendarFrom = Calendar.getInstance()
-        calendarTo.set(Calendar.HOUR_OF_DAY,toHour)
-        calendarTo.set(Calendar.MINUTE,toMinute)
-        calendarFrom.set(Calendar.HOUR_OF_DAY,fromHour)
-        calendarFrom.set(Calendar.MINUTE,fromMinute)
+        calendarTo.set(Calendar.HOUR_OF_DAY, toHour)
+        calendarTo.set(Calendar.MINUTE, toMinute)
+        calendarTo.set(Calendar.SECOND, 0)
+        calendarFrom.set(Calendar.HOUR_OF_DAY, fromHour)
+        calendarFrom.set(Calendar.MINUTE, fromMinute)
+        calendarFrom.set(Calendar.SECOND, 0)
 
-
-        var timeToSetOn = calendar.timeInMillis
+        var timeToSetOn = calendarFrom.timeInMillis
         val intervalInMillis = intervalMillisCompute()
-        val fromInMillis = fromHour * 3600000 + fromMinute*60000
-        val toInMillis = toHour * 3600000 + toMinute*60000
-        val notificationsCount = ((toInMillis-fromInMillis)/intervalInMillis)
+        val fromInMillis = fromHour * 3600000 + fromMinute * 60000
+        val toInMillis = toHour * 3600000 + toMinute * 60000
+        val notificationsCount = ((toInMillis - fromInMillis) / intervalInMillis)
+        //дебаг
         println("_______calendar from time: " + calendarFrom.time)
         println("_______calendar to time: " + calendarTo.time)
         println("_______calendar time: " + calendar.time)
@@ -200,33 +244,56 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
 
         //РАСПРЕДЕЛЕНИЕ НАПОМИНАНИЙ
         //TODO Сделать нормальное распределение напоминаний, вызывать его при запуске приложения + в начале суток + после ребута
-        var iCurrentTime = calendarFrom.timeInMillis
         var iStart = 0
-        for (i in 0..notificationsCount){
-            if (iCurrentTime >= calendar.timeInMillis) {
-                val pendingIntent=PendingIntent.getBroadcast(
-                    applicationContext,
-                    i,
-                    intent,
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                )
-                timeToSetOn += intervalInMillis.toLong()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        timeToSetOn,
-                        pendingIntent
+        if (notificationsOn) {
+            for (i in 0..notificationsCount) {
+                if (timeToSetOn >= calendar.timeInMillis && (timeToSetOn + intervalInMillis.toLong()) <= calendarTo.timeInMillis) {
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        applicationContext,
+                        i,
+                        intent,
+                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                     )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        alarmManager.setExactAndAllowWhileIdle(
+                            AlarmManager.RTC_WAKEUP,
+                            timeToSetOn,
+                            pendingIntent
+                        )
+                    }
+                    //дебаг
+                    val cal = Calendar.getInstance()
+                    cal.timeInMillis = timeToSetOn
+                    iStart++
+                    println("_________\nnotif#: " + iStart)
+                    println("Hour: " + cal.time)
+                    println("millis: " + timeToSetOn)
                 }
-                //дебаг
-                val cal = Calendar.getInstance()
-                cal.timeInMillis=timeToSetOn
-                iStart++
-                println("_________\nnotif#: " + iStart)
-                println("Hour: " + cal.time)
-                println("millis: " + timeToSetOn)
+                timeToSetOn += intervalInMillis.toLong()
             }
-            iCurrentTime += intervalInMillis.toLong()
+        }
+        else if (check==0) {
+            for (i in 0..notificationsCount) {
+                if (timeToSetOn >= calendar.timeInMillis && (timeToSetOn + intervalInMillis.toLong()) <= calendarTo.timeInMillis) {
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        applicationContext,
+                        i,
+                        intent,
+                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        alarmManager.cancel(pendingIntent)
+                    }
+                    //дебаг
+                    val cal = Calendar.getInstance()
+                    cal.timeInMillis = timeToSetOn
+                    iStart++
+                    println("____TURN OFF:_____\nnotif#: " + iStart)
+                    println("Hour: " + cal.time)
+                    println("millis: " + timeToSetOn)
+                }
+                timeToSetOn += intervalInMillis.toLong()
+            }
         }
     }
 

@@ -37,7 +37,7 @@ class Notification : BroadcastReceiver() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setPriority(PRIORITY_MAX)
-            //.setSound(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.notification_water_2))
+            .setSound(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.notification_water_sound))
             .build()
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
