@@ -23,7 +23,7 @@ class EditGoalDialog() : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
-            val builder = AlertDialog.Builder(it)
+            val builder = AlertDialog.Builder(it,R.style.AlertDialogTheme)
             val inflater = requireActivity().layoutInflater;
             val editGoalView = inflater.inflate(R.layout.edit_goal_dialog_fragment, null)
             val editGoalEditText = editGoalView.findViewById<EditText>(R.id.editGoalEditText)
