@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
             val attr = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
                 .build()
-            val sound = Uri.parse("android.resource://" + applicationContext.packageName + "/" + R.raw.notification_water_sound)
+            val sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + applicationContext.packageName + "/raw/notification_water_sound")
             channel.description = "Уведомления с напоминанием выпить воду"
             channel.enableLights(true)
             channel.setSound(sound, attr)

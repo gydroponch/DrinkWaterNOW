@@ -247,7 +247,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         var iStart = 0
         if (notificationsOn) {
             for (i in 0..notificationsCount) {
-                if (timeToSetOn >= calendar.timeInMillis && (timeToSetOn + intervalInMillis.toLong()) <= calendarTo.timeInMillis) {
+                if (timeToSetOn >= calendar.timeInMillis && timeToSetOn <= calendarTo.timeInMillis) {
                     val pendingIntent = PendingIntent.getBroadcast(
                         applicationContext,
                         i,
@@ -274,7 +274,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         }
         else if (check==0) {
             for (i in 0..notificationsCount) {
-                if (timeToSetOn >= calendar.timeInMillis && (timeToSetOn + intervalInMillis.toLong()) <= calendarTo.timeInMillis) {
+                if (timeToSetOn >= calendar.timeInMillis && timeToSetOn <= calendarTo.timeInMillis) {
                     val pendingIntent = PendingIntent.getBroadcast(
                         applicationContext,
                         i,

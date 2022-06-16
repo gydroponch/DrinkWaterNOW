@@ -3,6 +3,7 @@ package com.example.drinkwaternow
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -37,7 +38,7 @@ class Notification : BroadcastReceiver() {
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .setPriority(PRIORITY_MAX)
-            .setSound(Uri.parse("android.resource://" + context.packageName + "/" + R.raw.notification_water_sound))
+            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.packageName + "/raw/notification_water_sound"))
             .build()
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
