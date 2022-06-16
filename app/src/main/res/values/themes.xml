@@ -4,6 +4,8 @@
         <item name="colorControlNormal">@color/blueForStatusBar</item>
         <item name="colorOnPrimary">@color/darkerBlueForStatusBar</item>
     </style>
+
+
     <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="windowNoTitle">true</item>

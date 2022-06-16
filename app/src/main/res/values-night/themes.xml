@@ -4,6 +4,20 @@
         <item name="colorControlNormal">@color/blueForStatusBar</item>
         <item name="colorOnPrimary">@color/darkerBlueForStatusBar</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#f00</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#00f</item>
+    </style>
+
     <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
         <item name="windowNoTitle">true</item>
@@ -17,5 +31,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/darkestBlueForStatusBar</item>
         <!-- Customize your theme here. -->
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 </resources>

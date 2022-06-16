@@ -18,6 +18,6 @@
     <color name="lighterBlueForStatusBar">#99c7ff</color>
     <color name="blueForStatusBar">#FF519EFD</color>
     <color name="darkerBlueForStatusBar">#FF177fff</color>
-    <color name="darkestBlueForStatusBar">#0072FF</color>
+    <color name="darkestBlueForStatusBar">#FF0072FF</color>
     <color name="backgroundForVectorButton">#00FFFFFF</color>
 </resources>

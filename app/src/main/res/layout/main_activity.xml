@@ -48,7 +48,6 @@
         android:background="@color/backgroundForVectorButton"
         android:src="@drawable/ic_baseline_delete_24"
         android:text="@string/ClearWaterButtonText"
-
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toStartOf="@+id/pickTimeForNotifActivityButton"
@@ -69,6 +68,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <ImageButton
+        android:id="@+id/editGoalButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
+        android:background="@color/backgroundForVectorButton"
+        android:elevation="5dp"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:text="@string/ClearWaterButtonText"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/todayWaterProgressBar"
+        app:layout_constraintEnd_toStartOf="@+id/drankWaterTextView"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/todayWaterProgressBar"

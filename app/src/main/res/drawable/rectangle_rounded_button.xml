@@ -12,8 +12,8 @@
         android:startColor="@color/blueForStatusBar"
         android:endColor="@color/darkestBlueForStatusBar"
         />
-    <corners android:bottomRightRadius="360dp"
-        android:bottomLeftRadius="360dp"
-        android:topRightRadius="360dp"
-        android:topLeftRadius="360dp"/>
+    <corners android:bottomRightRadius="8dp"
+        android:bottomLeftRadius="8dp"
+        android:topRightRadius="8dp"
+        android:topLeftRadius="8dp"/>
 </shape>

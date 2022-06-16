@@ -91,6 +91,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         //TODO поправить костыль с долгим отображением таймпикера
         fromTimeEditText.setOnClickListener{
             if (notificationsOn) {
+                scheduleNotifications(0)
                 val bundle = Bundle()
                 bundle.putInt("editText", 0)
                 val newFragment: DialogFragment = TimePickerFragment()
@@ -103,6 +104,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
 
         toTimeEditText.setOnClickListener{
             if (notificationsOn) {
+                scheduleNotifications(0)
                 val bundle = Bundle()
                 bundle.putInt("editText", 1)
                 val newFragment: DialogFragment = TimePickerFragment()
@@ -114,8 +116,10 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         }
 
         intervalChangeButton.setOnClickListener{
-            if (notificationsOn)
-            showIntervalTimePicker(it)
+            if (notificationsOn) {
+                scheduleNotifications(0)
+                showIntervalTimePicker(it)
+            }
             else Toast.makeText(this, "Сначала включите уведомления!", Toast.LENGTH_SHORT).show()
         }
 
@@ -272,27 +276,29 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
                 timeToSetOn += intervalInMillis.toLong()
             }
         }
-        else if (check==0) {
-            for (i in 0..notificationsCount) {
-                if (timeToSetOn >= calendar.timeInMillis && timeToSetOn <= calendarTo.timeInMillis) {
-                    val pendingIntent = PendingIntent.getBroadcast(
-                        applicationContext,
-                        i,
-                        intent,
-                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        alarmManager.cancel(pendingIntent)
+        else {
+            if (check == 0) {
+                for (i in 0..notificationsCount) {
+                    if (timeToSetOn >= calendar.timeInMillis && timeToSetOn <= calendarTo.timeInMillis) {
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            applicationContext,
+                            i,
+                            intent,
+                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            alarmManager.cancel(pendingIntent)
+                        }
+                        //дебаг
+                        val cal = Calendar.getInstance()
+                        cal.timeInMillis = timeToSetOn
+                        iStart++
+                        println("____TURN OFF:_____\nnotif#: " + iStart)
+                        println("Hour: " + cal.time)
+                        println("millis: " + timeToSetOn)
                     }
-                    //дебаг
-                    val cal = Calendar.getInstance()
-                    cal.timeInMillis = timeToSetOn
-                    iStart++
-                    println("____TURN OFF:_____\nnotif#: " + iStart)
-                    println("Hour: " + cal.time)
-                    println("millis: " + timeToSetOn)
+                    timeToSetOn += intervalInMillis.toLong()
                 }
-                timeToSetOn += intervalInMillis.toLong()
             }
         }
     }

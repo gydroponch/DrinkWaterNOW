@@ -8,7 +8,7 @@
     <string name="ClearWaterButtonText">Обнулить</string>
     <string name="DrankTodayTextView">Выпито сегодня</string>
     <string name="goal">Цель</string>
-    <string name="ChangeCupButtonText">сменить чашку</string>
-    <string name="PickCupTextView">Выберите чашку</string>
+    <string name="ChangeCupButtonText">сменить объём</string>
+    <string name="PickCupTextView">Выберите объём</string>
     <string name="pickTimeIntervalButtonText">Интервал</string>
 </resources>

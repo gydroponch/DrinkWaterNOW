@@ -83,16 +83,17 @@
         app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/intervalChangeButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
-        android:backgroundTint="@color/darkerBlueForStatusBar"
+        android:background="@drawable/rectangle_rounded_button"
         android:elevation="5dp"
         android:text="@string/pickTimeIntervalButtonText"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.060"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle" />
 
@@ -149,11 +150,5 @@
         app:layout_constraintStart_toStartOf="@+id/toolbarPickTime"
         app:layout_constraintTop_toTopOf="@+id/toolbarPickTime"
         app:layout_constraintVertical_bias="0.5" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="314dp"
-        android:layout_height="255dp"
-        tools:layout_editor_absoluteX="48dp"
-        tools:layout_editor_absoluteY="294dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
