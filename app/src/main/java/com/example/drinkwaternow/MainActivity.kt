@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     @SuppressLint("SetTextI18n")
 
     private val APP_PREFERENCES = "Settings"
+    private val FIRST_LAUNCH = "FirstLaunch"
     private var todayGoal = 2500
     private var drankToday = 0
     private var progressAmount = 250
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         createNotificationChannel(CHANNEL_ID)
+        firstTimeLaunchCheck()
 
         val addWaterButton = findViewById<Button>(R.id.addWaterButton)
         val pickTimeForNotifActivityButton = findViewById<ImageButton>(R.id.pickTimeForNotifActivityButton)
@@ -82,6 +84,19 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         }
     }
 
+    //проверка на первый запуск
+    private fun firstTimeLaunchCheck(){
+        val firstLaunch = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
+        var isAppLaunchedFirstTime = firstLaunch.getBoolean(FIRST_LAUNCH, true)
+        if (isAppLaunchedFirstTime){
+            val firstLaunchIntent = Intent(applicationContext, FirstLaunchActivity::class.java)
+            startActivity(firstLaunchIntent)
+        }
+        val editor = firstLaunch.edit()
+        editor.putBoolean(FIRST_LAUNCH, false)
+        editor.apply()
+    }
+
     //проверка на выполнение плана
     private fun isTodayGoalDone(): Boolean {
         return drankToday >= todayGoal
@@ -91,8 +106,6 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         val drankWaterTextView = findViewById<TextView>(R.id.drankWaterTextView)
         val displayedText = "$drankToday из $todayGoal мл"
         drankWaterTextView.text = displayedText
-        //увеличение прогресса прогрессбара без анимации
-        //todayWaterProgressBar.progress = (clickCounter.toDouble()/TODAY_GOAL.toDouble()*100).toInt()
     }
 
     private fun showTodayGoalDoneToast(){

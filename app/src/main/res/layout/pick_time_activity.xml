@@ -117,6 +117,7 @@
         android:layout_marginTop="8dp"
         android:elevation="5dp"
         android:text="Время напоминаний"
+        android:textStyle="bold"
         android:textColor="@color/blueForStatusBar"
         app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
         app:layout_constraintTop_toTopOf="@+id/backgroundRectangle" />

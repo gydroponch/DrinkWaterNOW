@@ -11,4 +11,5 @@
     <string name="ChangeCupButtonText">сменить объём</string>
     <string name="PickCupTextView">Выберите объём</string>
     <string name="pickTimeIntervalButtonText">Интервал</string>
+    <string name="continueButton">Продолжить</string>
 </resources>
