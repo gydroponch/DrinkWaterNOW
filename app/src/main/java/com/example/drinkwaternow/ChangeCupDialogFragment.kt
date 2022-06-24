@@ -35,7 +35,7 @@ class ChangeCupDialogFragment(cupsList: List<Int>) : DialogFragment(){
         super.onViewCreated(view, savedInstanceState)
         val cupRecyclerView: RecyclerView = view.findViewById(R.id.CupRecyclerView)
         cupRecyclerView.layoutManager = GridLayoutManager(context,3)
-        cupRecyclerView.adapter = CustomAdapter(listOfCups, object: CustomAdapter.OnCupClickListener{
+        cupRecyclerView.adapter = ChangeCupAdapter(listOfCups, object: ChangeCupAdapter.OnCupClickListener{
             override fun onCupClick(input: String) {
                 dataPasser.chosenCupSendInput(input)
             }

@@ -13,9 +13,15 @@ import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener, EditGoalDialog.StringListener {
@@ -33,15 +39,17 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firstTimeLaunchCheck()
         setContentView(R.layout.main_activity)
         createNotificationChannel(CHANNEL_ID)
-        firstTimeLaunchCheck()
 
         val addWaterButton = findViewById<Button>(R.id.addWaterButton)
         val pickTimeForNotifActivityButton = findViewById<ImageButton>(R.id.pickTimeForNotifActivityButton)
         val clearWaterButton = findViewById<ImageButton>(R.id.zeroWaterButton)
         val changeCupButton = findViewById<ImageButton>(R.id.changeCupButton)
         val editGoalButton = findViewById<ImageButton>(R.id.editGoalButton)
+        val aboutButton = findViewById<ImageButton>(R.id.aboutButton)
+        val statsButton = findViewById<ImageButton>(R.id.statsButton)
 
         drankToday = loadWaterCountToInternalStorage()
         progressAmount = loadChosenCup()
@@ -49,11 +57,14 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         updateCountTextDisplay()
         updateProgressBar(drankToday)
 
+        setupListOfDataIntoRecyclerView()
+
         addWaterButton.setOnClickListener{
             if (isAnimationFinished) {
                 drankToday += progressAmount
                 updateCountTextDisplay()
                 updateProgressBar(progressAmount)
+                addDailyIntakeRecord(it)
             }
             saveWaterCountToInternalStorage(drankToday)
         }
@@ -64,13 +75,14 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
                     drankToday = 0
                     updateCountTextDisplay()
                     clearProgressBar()
+                    deleteAllIntakes()
                     todayGoalDone = false
                     saveWaterCountToInternalStorage(drankToday)
                 }
             }
         }
 
-        editGoalButton.setOnClickListener(){
+        editGoalButton.setOnClickListener{
             showEditGoalDialog()
         }
 
@@ -79,10 +91,86 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         }
 
         pickTimeForNotifActivityButton.setOnClickListener{
-            val notifIntent = Intent(applicationContext, PickTimeForNotif::class.java)
+            val notifIntent = Intent(applicationContext, PickTimeForNotifActivity::class.java)
             startActivity(notifIntent)
         }
+
+        aboutButton.setOnClickListener{
+            val aboutIntent = Intent(applicationContext, AboutScreenActivity::class.java)
+            startActivity(aboutIntent)
+        }
+
+        statsButton.setOnClickListener{
+            val statsIntent = Intent(applicationContext, StatisticsActivity::class.java)
+            startActivity(statsIntent)
+        }
     }
+
+    private fun getCurrentTime(): String {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        return "$hour:$minute"
+    }
+
+    /**
+     * Работа с базой данных
+     */
+    private fun addDailyIntakeRecord(view: View){
+        val dateTime = getCurrentTime()
+        val volume = progressAmount
+        val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
+            val status =
+                databaseHandler.addIntake(WaterModelClass(0, dateTime, volume))
+            if (status > -1) {
+                setupListOfDataIntoRecyclerView()
+            }
+    }
+
+    private fun deleteAllIntakes(){
+        if (getItemsList().size > 0) {
+            for (i in 0..getItemsList().size){
+                val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
+                val status =
+                    databaseHandler.deleteIntake(WaterModelClass(i, "", 0))
+                if (status > -1) {
+                    setupListOfDataIntoRecyclerView()
+                }
+            }
+        }
+    }
+
+    /**
+     * Function is used to get the Items List from the database table.
+     */
+    private fun getItemsList(): ArrayList<WaterModelClass> {
+        //creating the instance of DatabaseHandler class
+        val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
+        //calling the viewEmployee method of DatabaseHandler class to read the records
+        val intakeList: ArrayList<WaterModelClass> = databaseHandler.viewIntake()
+
+        return intakeList
+    }
+
+    /**
+     * Обновление RecyclerView
+     */
+    private fun setupListOfDataIntoRecyclerView() {
+        val DailyIntakesRV = findViewById<RecyclerView>(R.id.DailyIntakesRV)
+        if (getItemsList().size > 0) {
+            DailyIntakesRV.visibility = View.VISIBLE
+            // Set the LayoutManager that this RecyclerView will use.
+            DailyIntakesRV.layoutManager = GridLayoutManager(applicationContext,3)
+            // Adapter class is initialized and list is passed in the param.
+            val itemAdapter = WaterDatabaseAdapter(this, getItemsList())
+            // adapter instance is set to the recyclerview to inflate the items.
+            DailyIntakesRV.adapter = itemAdapter
+        } else {
+            DailyIntakesRV.visibility = View.GONE
+        }
+    }
+
+    //TODO добавить удаление и изменение записей базы данных
 
     //проверка на первый запуск
     private fun firstTimeLaunchCheck(){

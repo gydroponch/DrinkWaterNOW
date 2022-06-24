@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
-class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListener {
+class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnCompleteListener {
 
     val APP_PREFERENCES = "Settings"
     private val SAVED_FROM_HOUR = "SavedFromHour"
@@ -243,6 +243,7 @@ class PickTimeForNotif: AppCompatActivity(), TimePickerFragment.OnCompleteListen
         println("_______calendar interval millis: " + intervalMillisCompute())
         println("____________________NOTIFICATION COUNT:   " + notificationsCount)
 
+        //TODO попробовать setRepeating()
         //РАСПРЕДЕЛЕНИЕ НАПОМИНАНИЙ
         //TODO Сделать нормальное распределение напоминаний, вызывать его при запуске приложения + в начале суток + после ребута
         var iStart = 0

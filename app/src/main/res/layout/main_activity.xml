@@ -56,6 +56,38 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.666" />
 
+    <ImageButton
+        android:id="@+id/aboutButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/backgroundForVectorButton"
+        android:src="@drawable/ic_baseline_help_24"
+        android:text="@string/ClearWaterButtonText"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toStartOf="@+id/zeroWaterButton"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.666" />
+
+    <ImageButton
+        android:id="@+id/statsButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/backgroundForVectorButton"
+        android:src="@drawable/ic_baseline_auto_graph_24"
+        android:text="@string/ClearWaterButtonText"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toStartOf="@+id/aboutButton"
+        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.666" />
+
     <ImageView
         android:id="@+id/backgroundRectangle"
         android:layout_width="360dp"
@@ -155,6 +187,7 @@
         android:id="@+id/changeCupButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:elevation="5dp"
         android:background="@color/backgroundForVectorButton"
         android:src="@drawable/ic_baseline_local_drink_24"
         android:text="@string/ChangeCupButtonText"
@@ -164,6 +197,17 @@
         app:layout_constraintStart_toEndOf="@+id/addWaterButton"
         app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
         app:layout_constraintVertical_bias="0.919" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/DailyIntakesRV"
+        android:layout_width="360dp"
+        android:layout_height="450dp"
+        android:elevation="1dp"
+        android:maxHeight="450dp"
+        app:layout_constraintBottom_toTopOf="@+id/addWaterButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

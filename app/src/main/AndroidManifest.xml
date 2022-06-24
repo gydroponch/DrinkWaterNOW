@@ -33,8 +33,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PickTimeForNotif" android:parentActivityName=".MainActivity" />
+        <activity android:name=".PickTimeForNotifActivity" android:parentActivityName=".MainActivity" />
         <activity android:name=".FirstLaunchActivity" android:parentActivityName=".MainActivity" />
+        <activity android:name="AboutScreenActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name="StatisticsActivity" android:parentActivityName=".MainActivity"/>
 
         </application>
 </manifest>

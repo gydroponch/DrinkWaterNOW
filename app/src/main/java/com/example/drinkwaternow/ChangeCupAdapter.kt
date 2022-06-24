@@ -5,22 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomAdapter(private val dataSet: List<Int>, private val listener: OnCupClickListener) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
+class ChangeCupAdapter(private val dataSet: List<Int>, private val listener: OnCupClickListener) :
+    RecyclerView.Adapter<ChangeCupAdapter.ViewHolder>() {
 
     interface OnCupClickListener {
         fun onCupClick(input: String)
     }
 
     inner class ViewHolder(view: View, viewGroup: ViewGroup) : RecyclerView.ViewHolder(view) {
-
         val imageButton: ImageButton
         val textView: TextView
         var cupSize: Int = 0
@@ -28,10 +22,6 @@ class CustomAdapter(private val dataSet: List<Int>, private val listener: OnCupC
             // Define click listener for the ViewHolder's View.
             imageButton = view.findViewById(R.id.imageButtonRVItem)
             textView = view.findViewById(R.id.ImageButtonText)
-//            imageButton.setOnClickListener{
-//                Toast.makeText(viewGroup.context,"Выбрана чашка (${textView.text})",Toast.LENGTH_SHORT).show()
-//            }
-            println("viewHolder init")
         }
     }
 
@@ -58,6 +48,7 @@ class CustomAdapter(private val dataSet: List<Int>, private val listener: OnCupC
             250 -> viewHolder.imageButton.setImageResource(R.drawable.water_glass_250ml)
             500 -> viewHolder.imageButton.setImageResource(R.drawable.water_bottle_500ml)
             1000 -> viewHolder.imageButton.setImageResource(R.drawable.water_bottle_1000ml)
+            //TODO добавление нового сосуда
 //            0 -> {
 //                viewHolder.imageButton.setImageResource(R.drawable.water_glass_250ml)
 //                viewHolder.textView.text = "Новая\nчашка"
