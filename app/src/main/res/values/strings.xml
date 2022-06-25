@@ -12,4 +12,5 @@
     <string name="PickCupTextView">Выберите объём</string>
     <string name="pickTimeIntervalButtonText">Интервал</string>
     <string name="continueButton">Продолжить</string>
+    <string name="AboutText">Разработано в ТУСУР\n© Кирилл Мазнев\n2022</string>
 </resources>

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     private var drankToday = 0
     private var progressAmount = 250
     private var isAnimationFinished = true
-    private var cupsList = listOf(200, 250, 500, 1000  /*, 0*/)
+    private var cupsList = listOf(200, 250, 300, 500, 1000  /*, 0*/)
     private var todayGoalDone = false
     val CHANNEL_ID = "DEF_CHANNEL"
 

@@ -44,8 +44,9 @@ class ChangeCupAdapter(private val dataSet: List<Int>, private val listener: OnC
         viewHolder.textView.text = dataSet[position].toString()+ "мл"
         viewHolder.cupSize = dataSet[position]
         when (dataSet[position]){
-            200 -> viewHolder.imageButton.setImageResource(R.drawable.water_glass_200ml)
+            200 -> viewHolder.imageButton.setImageResource(R.drawable.ic_glass_200)
             250 -> viewHolder.imageButton.setImageResource(R.drawable.water_glass_250ml)
+            300 -> viewHolder.imageButton.setImageResource(R.drawable.ic_glass_cup_300)
             500 -> viewHolder.imageButton.setImageResource(R.drawable.water_bottle_500ml)
             1000 -> viewHolder.imageButton.setImageResource(R.drawable.water_bottle_1000ml)
             //TODO добавление нового сосуда

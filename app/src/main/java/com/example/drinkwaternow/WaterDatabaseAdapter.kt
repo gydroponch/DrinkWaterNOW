@@ -28,7 +28,6 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
             llMain = view.findViewById(R.id.llMain)
             tvDateTime = view.findViewById(R.id.tvDateTime)
             tvVolume = view.findViewById(R.id.tvVolume)
-
         }
     }
 
@@ -59,12 +58,24 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
      * layout file.
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val item = items.get(position)
-
         holder.tvDateTime.text = item.DateTime
         holder.tvVolume.text = (item.Volume.toString())+" мл"
-        holder.intakeImageView.setImageResource(R.drawable.water_glass_250ml)
+
+        when (item.Volume){
+            200 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_200)
+            250 -> holder.intakeImageView.setImageResource(R.drawable.water_glass_250ml)
+            300 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_cup_300)
+            500 -> holder.intakeImageView.setImageResource(R.drawable.water_bottle_500ml)
+            1000 -> holder.intakeImageView.setImageResource(R.drawable.water_bottle_1000ml)
+            //TODO добавление нового сосуда
+//            0 -> {
+//                viewHolder.imageButton.setImageResource(R.drawable.water_glass_250ml)
+//                viewHolder.textView.text = "Новая\nчашка"
+//            }
+        }
+
+        //holder.intakeImageView.setImageResource(R.drawable.ic_glass_200)
 
         // Updating the background color according to the odd/even positions in list.
         /*if (position % 2 == 0) {
