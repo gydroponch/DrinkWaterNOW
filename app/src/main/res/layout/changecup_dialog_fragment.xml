@@ -12,14 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:scrollbars="vertical"
+        android:background="@color/white"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="30dp"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:spanCount="3"
-        tools:listitem="@layout/imagebutton_row_item" />
+        tools:listitem="@layout/change_cup_row_item" />
 
     <TextView
         android:id="@+id/PickCupTextView"

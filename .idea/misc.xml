@@ -8,6 +8,8 @@
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_baseline_change_circle_24.xml" value="0.3625" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_baseline_local_drink_24.xml" value="0.27" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.3725" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_glass_200.xml" value="0.206" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_glass_200_gradient.xml" value="0.3685" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_outline_delete_forever_24.xml" value="0.3725" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/ic_outline_local_drink_24.xml" value="0.3725" />
@@ -18,6 +20,7 @@
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/water_progressbar.xml" value="0.22" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/drawable/water_progressbar_background.xml" value="0.2585" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/about_screen_activity.xml" value="0.33" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/change_cup_row_item.xml" value="0.33" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/changecup_dialog_fragment.xml" value="0.22" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/edit_goal_dialog_fragment.xml" value="0.25" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/first_launch_settings_activity.xml" value="0.33" />
@@ -26,7 +29,7 @@
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/imagebutton_row_item.xml" value="0.75" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/intake_row_item.xml" value="0.75" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/item_row.xml" value="0.278125" />
-        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/main_activity.xml" value="0.33" />
+        <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/main_activity.xml" value="0.5" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/pick_time_activity.xml" value="0.5" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/placeholder_layout.xml" value="0.19322916666666667" />
         <entry key="..\:/source/android/DrinkWaterNOW/app/src/main/res/layout/stats_activity.xml" value="0.25" />

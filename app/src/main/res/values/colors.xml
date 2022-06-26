@@ -16,7 +16,7 @@
     <color name="progressBarCenter">#FF519EFD</color>
     <color name="progressBarEnd">#FF177fff</color>
     <color name="lighterBlueForStatusBar">#99c7ff</color>
-    <color name="blueForStatusBar">#FF519EFD</color>
+    <color name="blueForStatusBar">#519EFD</color>
     <color name="darkerBlueForStatusBar">#FF177fff</color>
     <color name="darkestBlueForStatusBar">#FF0072FF</color>
     <color name="backgroundForVectorButton">#00FFFFFF</color>

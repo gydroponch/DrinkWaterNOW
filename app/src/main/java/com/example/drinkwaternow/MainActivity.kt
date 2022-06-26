@@ -18,7 +18,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 import kotlin.collections.ArrayList
@@ -50,12 +49,14 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         val editGoalButton = findViewById<ImageButton>(R.id.editGoalButton)
         val aboutButton = findViewById<ImageButton>(R.id.aboutButton)
         val statsButton = findViewById<ImageButton>(R.id.statsButton)
+        val currentCupTextView = findViewById<TextView>(R.id.currentCupTextView)
 
         drankToday = loadWaterCountToInternalStorage()
         progressAmount = loadChosenCup()
         todayGoal = loadTodayGoal()
         updateCountTextDisplay()
         updateProgressBar(drankToday)
+        updateCupText()
 
         setupListOfDataIntoRecyclerView()
 
@@ -128,8 +129,8 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     }
 
     private fun deleteAllIntakes(){
-        if (getItemsList().size > 0) {
-            for (i in 0..getItemsList().size){
+        if (getIntakesList().size > 0) {
+            for (i in 0..getIntakesList().size){
                 val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
                 val status =
                     databaseHandler.deleteIntake(WaterModelClass(i, "", 0))
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     /**
      * Function is used to get the Items List from the database table.
      */
-    private fun getItemsList(): ArrayList<WaterModelClass> {
+    private fun getIntakesList(): ArrayList<WaterModelClass> {
         //creating the instance of DatabaseHandler class
         val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
@@ -157,12 +158,12 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
      */
     private fun setupListOfDataIntoRecyclerView() {
         val DailyIntakesRV = findViewById<RecyclerView>(R.id.DailyIntakesRV)
-        if (getItemsList().size > 0) {
+        if (getIntakesList().size > 0) {
             DailyIntakesRV.visibility = View.VISIBLE
             // Set the LayoutManager that this RecyclerView will use.
-            DailyIntakesRV.layoutManager = GridLayoutManager(applicationContext,3)
+            DailyIntakesRV.layoutManager = GridLayoutManager(applicationContext,4)
             // Adapter class is initialized and list is passed in the param.
-            val itemAdapter = WaterDatabaseAdapter(this, getItemsList())
+            val itemAdapter = WaterDatabaseAdapter(this, getIntakesList())
             // adapter instance is set to the recyclerview to inflate the items.
             DailyIntakesRV.adapter = itemAdapter
         } else {
@@ -194,6 +195,12 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         val drankWaterTextView = findViewById<TextView>(R.id.drankWaterTextView)
         val displayedText = "$drankToday из $todayGoal мл"
         drankWaterTextView.text = displayedText
+    }
+
+    private fun updateCupText(){
+        val cupTextView = findViewById<TextView>(R.id.currentCupTextView)
+        val displayedText = "$progressAmount мл"
+        cupTextView.text = displayedText
     }
 
     private fun showTodayGoalDoneToast(){
@@ -233,11 +240,9 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     override fun chosenCupSendInput(input: String) {
         //выбранная чашка
         progressAmount=input.toInt()
-        val sharedPref = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putInt(getString(R.string.chosenCup), progressAmount)
-        editor.apply()
+        saveChosenCup()
         Toast.makeText(applicationContext,"Выбрана чашка ($input) мл",Toast.LENGTH_SHORT).show()
+        updateCupText()
         println(input)
     }
 
@@ -284,6 +289,13 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
             putInt(getString(R.string.todayGoal), todayGoal)
             apply()
         }
+    }
+
+    private fun saveChosenCup(){
+        val sharedPref = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putInt(getString(R.string.chosenCup), progressAmount)
+        editor.apply()
     }
 
     private fun loadWaterCountToInternalStorage(): Int {

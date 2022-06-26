@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class WaterDatabaseAdapter(val context: Context, val items: ArrayList<WaterModelClass>) :
@@ -19,15 +17,16 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Holds the TextView that will add each item to
-        val llMain: ConstraintLayout
-        val tvDateTime : TextView
-        val tvVolume : TextView
+        private val constraintLayoutMain: ConstraintLayout
+        val dateTimeTextView: TextView
+        val volumeTextView: TextView
         val intakeImageView: ImageView
+
         init {
             intakeImageView = view.findViewById(R.id.intakeImageView)
-            llMain = view.findViewById(R.id.llMain)
-            tvDateTime = view.findViewById(R.id.tvDateTime)
-            tvVolume = view.findViewById(R.id.tvVolume)
+            constraintLayoutMain = view.findViewById(R.id.llMain)
+            dateTimeTextView = view.findViewById(R.id.tvDateTime)
+            volumeTextView = view.findViewById(R.id.tvVolume)
         }
     }
 
@@ -59,36 +58,16 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items.get(position)
-        holder.tvDateTime.text = item.DateTime
-        holder.tvVolume.text = (item.Volume.toString())+" мл"
+        holder.dateTimeTextView.text = item.DateTime
+        holder.volumeTextView.text = (item.Volume.toString()) + " мл"
 
-        when (item.Volume){
-            200 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_200)
+        when (item.Volume) {
+            200 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_200_gradient)
             250 -> holder.intakeImageView.setImageResource(R.drawable.water_glass_250ml)
-            300 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_cup_300)
-            500 -> holder.intakeImageView.setImageResource(R.drawable.water_bottle_500ml)
-            1000 -> holder.intakeImageView.setImageResource(R.drawable.water_bottle_1000ml)
-            //TODO добавление нового сосуда
-//            0 -> {
-//                viewHolder.imageButton.setImageResource(R.drawable.water_glass_250ml)
-//                viewHolder.textView.text = "Новая\nчашка"
-//            }
+            300 -> holder.intakeImageView.setImageResource(R.drawable.ic_cup_300_gradient)
+            500 -> holder.intakeImageView.setImageResource(R.drawable.ic_bottle_500_gradient)
+            1000 -> holder.intakeImageView.setImageResource(R.drawable.ic_bottle_1000_gradient)
         }
-
-        //holder.intakeImageView.setImageResource(R.drawable.ic_glass_200)
-
-        // Updating the background color according to the odd/even positions in list.
-        /*if (position % 2 == 0) {
-            holder.llMain.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.progressBarBackground
-                )
-            )
-        } else {
-            holder.llMain.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
-        }
-        */
     }
 
     /**

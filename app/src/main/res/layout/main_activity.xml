@@ -10,7 +10,6 @@
     android:clipToPadding="false"
     android:theme="@style/Theme.drinkwaternow">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -183,6 +182,19 @@
         app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
         app:layout_constraintVertical_bias="0.931" />
 
+    <TextView
+        android:id="@+id/currentCupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cup"
+        android:textColor="@color/darkerBlueForStatusBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintStart_toEndOf="@+id/changeCupButton"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.907" />
+
     <ImageButton
         android:id="@+id/changeCupButton"
         android:layout_width="40dp"
@@ -201,13 +213,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/DailyIntakesRV"
         android:layout_width="360dp"
-        android:layout_height="450dp"
-        android:elevation="1dp"
-        android:maxHeight="450dp"
+        android:layout_height="495dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/appBackground"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="30dp"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical"
         app:layout_constraintBottom_toTopOf="@+id/addWaterButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle" />
+        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
