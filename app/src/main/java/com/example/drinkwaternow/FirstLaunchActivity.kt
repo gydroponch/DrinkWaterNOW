@@ -21,6 +21,7 @@ class FirstLaunchActivity: AppCompatActivity(), TimePickerFragment.OnCompleteLis
     private val SAVED_TO_MINUTE = "SavedToMinute"
     private val INTERVALH = "IntervalH"
     private val INTERVALM = "IntervalM"
+    private val NOTIFICATIONS = "Notifications"
 
     private var fromHour = 9
     private var fromMinute = 0
@@ -29,6 +30,8 @@ class FirstLaunchActivity: AppCompatActivity(), TimePickerFragment.OnCompleteLis
 
     private var intervalHour = 1
     private var intervalMinute = 0
+
+    private var notificationsOn = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +66,25 @@ class FirstLaunchActivity: AppCompatActivity(), TimePickerFragment.OnCompleteLis
 
         continueButton.setOnClickListener{
             saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
+            saveNotificationsStateToInternalStorage()
             finish()
         }
+    }
+
+    private fun saveNotificationsStateToInternalStorage(){
+        val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
+        var oneOrZero = 1
+        if (!notificationsOn) oneOrZero = 0
+        with (sharedPref.edit()){
+            putInt(NOTIFICATIONS, oneOrZero)
+            apply()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        saveNotificationsStateToInternalStorage()
+        saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
     }
 
     //вызывается после установки времени

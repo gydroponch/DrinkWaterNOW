@@ -51,12 +51,10 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
         loadIntervalFromInternalStorage()
         saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
 
-        if(notificationsOn)
-        turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_outline_notifications_24))
-        else
-        turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_notifications_off_24))
+        updateNotifButton()
+        updateIntervalTV()
 
-        intervalTextView.text="уведомления через каждые ${intervalMinutesCompute()} минут"
+        //intervalTextView.text="уведомления через каждые ${intervalMinutesCompute()} минут"
         fromTimeEditText.setText("$fromHour : $fromMinute")
         toTimeEditText.setText("$toHour : $toMinute")
         fromTimeEditText.inputType = InputType.TYPE_NULL
@@ -76,7 +74,7 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
                         intervalHour = 3
                         intervalMinute = 0
                     }
-                    intervalTextView!!.text = String.format(Locale.getDefault(), "уведомления через каждые %02d минут", intervalMinutesCompute())
+                    updateIntervalTV()
                     saveIntervalToInternalStorage(intervalHour, intervalMinute)
                     //распределение уведомлений
                     scheduleNotifications(1)
@@ -123,16 +121,17 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
         turnOffNotificationsButton.setOnClickListener{
             if (notificationsOn) {
                 notificationsOn=false
-                turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_notifications_off_24))
+                updateNotifButton()
                 Toast.makeText(this, "Уведомления выключены!", Toast.LENGTH_SHORT).show()
                 scheduleNotifications(0)
             }
             else {
                 notificationsOn=true
-                turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_outline_notifications_24))
+                updateNotifButton()
                 Toast.makeText(this, "Уведомления включены!", Toast.LENGTH_SHORT).show()
                 scheduleNotifications(1)
             }
+            updateIntervalTV()
             saveNotificationsStateToInternalStorage()
         }
     }
@@ -158,6 +157,22 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
             //распределение уведомлений
             scheduleNotifications(1)
         }
+    }
+
+    private fun updateNotifButton(){
+        val turnOffNotificationsButton = findViewById<ImageButton>(R.id.turnOffNotificationsButton)
+        if (notificationsOn)
+            turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_outline_notifications_24))
+        else
+            turnOffNotificationsButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.ic_baseline_notifications_off_24))
+    }
+
+    private fun updateIntervalTV(){
+        val intervalTextView = findViewById<TextView>(R.id.intervalTextView)
+        if (notificationsOn)
+            intervalTextView!!.text = String.format(Locale.getDefault(),
+               "уведомления через каждые %02d минут", intervalMinutesCompute())
+        else intervalTextView!!.text = "уведомления отключены"
     }
 
     private fun saveTimeToInternalStorage(prefName1: String, prefName2: String, Hour:Int, Minute:Int) {
@@ -190,7 +205,7 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
 
     private fun loadNotificationsStateFromInternalStorage() {
         val sharedPref = this.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE)
-        val oneOrZero = sharedPref.getInt(NOTIFICATIONS, 1)
+        val oneOrZero = sharedPref.getInt(NOTIFICATIONS, 0)
         if (oneOrZero == 1) notificationsOn = true
             else notificationsOn = false
     }
