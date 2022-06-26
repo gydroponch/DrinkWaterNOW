@@ -63,7 +63,7 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
 
         when (item.Volume) {
             200 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_200_gradient)
-            250 -> holder.intakeImageView.setImageResource(R.drawable.water_glass_250ml)
+            250 -> holder.intakeImageView.setImageResource(R.drawable.ic_glass_250_gradient)
             300 -> holder.intakeImageView.setImageResource(R.drawable.ic_cup_300_gradient)
             500 -> holder.intakeImageView.setImageResource(R.drawable.ic_bottle_500_gradient)
             1000 -> holder.intakeImageView.setImageResource(R.drawable.ic_bottle_1000_gradient)

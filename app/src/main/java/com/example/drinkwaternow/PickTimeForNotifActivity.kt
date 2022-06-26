@@ -35,7 +35,7 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
     private var intervalHour = 1
     private var intervalMinute = 0
 
-    private var notificationsOn = true
+    private var notificationsOn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -285,7 +285,7 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
                             intent,
                             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_NO_CREATE
                         )
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && pendingIntent!=null) {
                             alarmManager.cancel(pendingIntent)
                         }
                         //дебаг

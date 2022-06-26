@@ -45,7 +45,7 @@ class ChangeCupAdapter(private val dataSet: List<Int>, private val listener: OnC
         viewHolder.cupSize = dataSet[position]
         when (dataSet[position]){
             200 -> viewHolder.imageButton.setImageResource(R.drawable.ic_glass_200_gradient)
-            250 -> viewHolder.imageButton.setImageResource(R.drawable.water_glass_250ml)
+            250 -> viewHolder.imageButton.setImageResource(R.drawable.ic_glass_250_gradient)
             300 -> viewHolder.imageButton.setImageResource(R.drawable.ic_cup_300_gradient)
             500 -> viewHolder.imageButton.setImageResource(R.drawable.ic_bottle_500_gradient)
             1000 -> viewHolder.imageButton.setImageResource(R.drawable.ic_bottle_1000_gradient)
