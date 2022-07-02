@@ -5,8 +5,18 @@
         <item name="colorOnPrimary">@color/darkerBlueForStatusBar</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/blueForStatusBar</item>
+    </style>
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/darkerBlueForStatusBar</item>
+    </style>
 
-    <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/blueForStatusBar</item>
@@ -19,5 +29,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/darkestBlueForStatusBar</item>
         <!-- Customize your theme here. -->
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="android:textColorHint">@color/lighterBlueForStatusBar</item>
     </style>
 </resources>

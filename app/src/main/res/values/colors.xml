@@ -20,4 +20,5 @@
     <color name="darkerBlueForStatusBar">#FF177fff</color>
     <color name="darkestBlueForStatusBar">#FF0072FF</color>
     <color name="backgroundForVectorButton">#00FFFFFF</color>
+    <color name="errorColor">#B53939</color>
 </resources>

@@ -14,6 +14,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnCompleteListener {
@@ -54,9 +55,17 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
         updateNotifButton()
         updateIntervalTV()
 
-        //intervalTextView.text="уведомления через каждые ${intervalMinutesCompute()} минут"
-        fromTimeEditText.setText("$fromHour : $fromMinute")
-        toTimeEditText.setText("$toHour : $toMinute")
+        val df = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val calendar = Calendar.getInstance()
+
+        calendar.set(Calendar.HOUR_OF_DAY, fromHour)
+        calendar.set(Calendar.MINUTE, fromMinute)
+        fromTimeEditText.setText(df.format(calendar.time))
+
+        calendar.set(Calendar.HOUR_OF_DAY, toHour)
+        calendar.set(Calendar.MINUTE, toMinute)
+        toTimeEditText.setText(df.format(calendar.time))
+
         fromTimeEditText.inputType = InputType.TYPE_NULL
         toTimeEditText.inputType = InputType.TYPE_NULL
 
@@ -139,11 +148,12 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
     //вызывается после установки времени
     override fun onComplete(fragNumber: Int?, calendar: Calendar){
         scheduleNotifications(0)
+        val df = SimpleDateFormat("HH:mm", Locale.getDefault())
         if (fragNumber==0) {
             fromHour = calendar.get(Calendar.HOUR_OF_DAY)
             fromMinute = calendar.get(Calendar.MINUTE)
             val fromTimeEditText = findViewById<EditText>(R.id.editTextFromTime)
-            fromTimeEditText.setText("$fromHour : $fromMinute")
+            fromTimeEditText.setText(df.format(calendar.time))
             saveTimeToInternalStorage(SAVED_FROM_HOUR, SAVED_FROM_MINUTE, fromHour, fromMinute)
             //распределение уведомлений
             scheduleNotifications(1)
@@ -152,7 +162,7 @@ class PickTimeForNotifActivity: AppCompatActivity(), TimePickerFragment.OnComple
             toHour = calendar.get(Calendar.HOUR_OF_DAY)
             toMinute = calendar.get(Calendar.MINUTE)
             val fromTimeEditText2 = findViewById<EditText>(R.id.editTextToTime)
-            fromTimeEditText2.setText("$toHour : $toMinute")
+            fromTimeEditText2.setText(df.format(calendar.time))
             saveTimeToInternalStorage(SAVED_TO_HOUR, SAVED_TO_MINUTE, toHour, toMinute)
             //распределение уведомлений
             scheduleNotifications(1)

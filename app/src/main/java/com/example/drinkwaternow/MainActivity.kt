@@ -19,6 +19,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.time.Year
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -49,23 +50,27 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         val editGoalButton = findViewById<ImageButton>(R.id.editGoalButton)
         val aboutButton = findViewById<ImageButton>(R.id.aboutButton)
         val statsButton = findViewById<ImageButton>(R.id.statsButton)
-        val currentCupTextView = findViewById<TextView>(R.id.currentCupTextView)
+        val countText = findViewById<TextView>(R.id.drankWaterTextView)
+
+        setupListOfDataIntoRecyclerView()
 
         drankToday = loadWaterCountToInternalStorage()
         progressAmount = loadChosenCup()
         todayGoal = loadTodayGoal()
+        newDayCheck()
         updateCountTextDisplay()
         updateProgressBar(drankToday)
         updateCupText()
 
-        setupListOfDataIntoRecyclerView()
+
+
 
         addWaterButton.setOnClickListener{
             if (isAnimationFinished) {
                 drankToday += progressAmount
                 updateCountTextDisplay()
                 updateProgressBar(progressAmount)
-                addDailyIntakeRecord(it)
+                addDailyIntakeRecord()
             }
             saveWaterCountToInternalStorage(drankToday)
         }
@@ -107,20 +112,57 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
         }
     }
 
-    private fun getCurrentTime(): String {
+    private fun getCurrentDate(): Calendar {
+        val calendarToday = Calendar.getInstance()
+        calendarToday.set(Calendar.HOUR_OF_DAY, 0)
+        calendarToday.set(Calendar.MINUTE, 0)
+        calendarToday.set(Calendar.SECOND, 0)
+        calendarToday.set(Calendar.MILLISECOND, 0)
+        return calendarToday
+    }
+
+    private fun newDayCheck(){
+        val calendarToday = getCurrentDate()
+        val sharedPref = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
+        val spMillis = sharedPref.getLong(getString(R.string.todayCheck), 0)
+        if (spMillis!=calendarToday.timeInMillis) {
+            val yesterdayIntakes = countYesterdayIntakes()
+            if (yesterdayIntakes>0)
+            addSumIntakeRecord(calendarToday.timeInMillis, yesterdayIntakes)
+            drankToday = 0
+            deleteAllIntakes()
+            updateCountTextDisplay()
+            clearProgressBar()
+            with(sharedPref.edit()) {
+                putLong(getString(R.string.todayCheck), calendarToday.timeInMillis)
+                apply()
+            }
+        }
+    }
+
+    private fun countYesterdayIntakes(): Int {
+        val intakesList = getIntakesList()
+        var yesterdayIntakes = 0
+        for (i in 0 until intakesList.size) {
+            val intake = intakesList[i]
+            yesterdayIntakes+=intake.Volume
+            println("че прибавляем" + intake.Volume)
+        }
+    return yesterdayIntakes
+    }
+
+    private fun getCurrentTime(): Long {
         val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-        return "$hour:$minute"
+        return calendar.timeInMillis
     }
 
     /**
      * Работа с базой данных
      */
-    private fun addDailyIntakeRecord(view: View){
+    private fun addDailyIntakeRecord(){
         val dateTime = getCurrentTime()
         val volume = progressAmount
-        val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
+        val databaseHandler = WaterDatabaseHandler(this)
             val status =
                 databaseHandler.addIntake(WaterModelClass(0, dateTime, volume))
             if (status > -1) {
@@ -128,12 +170,17 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
             }
     }
 
+    private fun addSumIntakeRecord(date:Long, sumVolume: Int){
+        val databaseHandler = WaterDatabaseHandler(this)
+        databaseHandler.addSumIntake(WaterModelClass(0,date,sumVolume))
+    }
+
     private fun deleteAllIntakes(){
         if (getIntakesList().size > 0) {
             for (i in 0..getIntakesList().size){
-                val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
+                val databaseHandler = WaterDatabaseHandler(this)
                 val status =
-                    databaseHandler.deleteIntake(WaterModelClass(i, "", 0))
+                    databaseHandler.deleteIntake(WaterModelClass(i, 0, 0))
                 if (status > -1) {
                     setupListOfDataIntoRecyclerView()
                 }
@@ -146,7 +193,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
      */
     private fun getIntakesList(): ArrayList<WaterModelClass> {
         //creating the instance of DatabaseHandler class
-        val databaseHandler: WaterDatabaseHandler = WaterDatabaseHandler(this)
+        val databaseHandler = WaterDatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
         val intakeList: ArrayList<WaterModelClass> = databaseHandler.viewIntake()
 
@@ -157,17 +204,19 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
      * Обновление RecyclerView
      */
     private fun setupListOfDataIntoRecyclerView() {
-        val DailyIntakesRV = findViewById<RecyclerView>(R.id.DailyIntakesRV)
-        if (getIntakesList().size > 0) {
-            DailyIntakesRV.visibility = View.VISIBLE
-            // Set the LayoutManager that this RecyclerView will use.
-            DailyIntakesRV.layoutManager = GridLayoutManager(applicationContext,4)
-            // Adapter class is initialized and list is passed in the param.
-            val itemAdapter = WaterDatabaseAdapter(this, getIntakesList())
-            // adapter instance is set to the recyclerview to inflate the items.
-            DailyIntakesRV.adapter = itemAdapter
-        } else {
-            DailyIntakesRV.visibility = View.GONE
+        val dailyIntakesRV = findViewById<RecyclerView>(R.id.DailyIntakesRV)
+        if (dailyIntakesRV!=null){
+            if (getIntakesList().size > 0) {
+                if (dailyIntakesRV.visibility == View.GONE ) dailyIntakesRV.visibility = View.VISIBLE
+                // Set the LayoutManager that this RecyclerView will use.
+                dailyIntakesRV.layoutManager = GridLayoutManager(applicationContext,4)
+                // Adapter class is initialized and list is passed in the param.
+                val itemAdapter = WaterDatabaseAdapter(this, getIntakesList())
+                // adapter instance is set to the recyclerview to inflate the items.
+                dailyIntakesRV.adapter = itemAdapter
+            } else {
+                dailyIntakesRV.visibility = View.GONE
+            }
         }
     }
 
@@ -176,7 +225,7 @@ class MainActivity : AppCompatActivity(), ChangeCupDialogFragment.StringListener
     //проверка на первый запуск
     private fun firstTimeLaunchCheck(){
         val firstLaunch = this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
-        var isAppLaunchedFirstTime = firstLaunch.getBoolean(FIRST_LAUNCH, true)
+        val isAppLaunchedFirstTime = firstLaunch.getBoolean(FIRST_LAUNCH, true)
         if (isAppLaunchedFirstTime){
             val firstLaunchIntent = Intent(applicationContext, FirstLaunchActivity::class.java)
             startActivity(firstLaunchIntent)

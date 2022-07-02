@@ -16,7 +16,7 @@
         <item name="android:textColor">@color/darkerBlueForStatusBar</item>
     </style>
 
-    <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.DayNight">
+    <style name="Theme.drinkwaternow" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/blueForStatusBar</item>

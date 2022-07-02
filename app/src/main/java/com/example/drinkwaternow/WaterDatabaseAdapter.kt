@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WaterDatabaseAdapter(val context: Context, val items: ArrayList<WaterModelClass>) :
 RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
@@ -21,7 +23,7 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
         val dateTimeTextView: TextView
         val volumeTextView: TextView
         val intakeImageView: ImageView
-
+        var calendar = Calendar.getInstance()
         init {
             intakeImageView = view.findViewById(R.id.intakeImageView)
             constraintLayoutMain = view.findViewById(R.id.llMain)
@@ -58,7 +60,9 @@ RecyclerView.Adapter<WaterDatabaseAdapter.ViewHolder>() {
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items.get(position)
-        holder.dateTimeTextView.text = item.DateTime
+        holder.calendar.timeInMillis=item.DateTime
+        val df = SimpleDateFormat("HH:mm", Locale.getDefault())
+        holder.dateTimeTextView.text = df.format(holder.calendar.time)
         holder.volumeTextView.text = (item.Volume.toString()) + " мл"
 
         when (item.Volume) {

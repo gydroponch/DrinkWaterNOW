@@ -3,6 +3,7 @@
     <string name="clickCount">click_count</string>
     <string name="chosenCup">chosenCup</string>
     <string name="todayGoal">todayGoal</string>
+    <string name="todayCheck">todayCheck</string>
     <string name="todayGoalDoneString">Сегодняшняя цель выполнена!\nТак держать!\n</string>
     <string name="PlusWaterButtonText">+</string>
     <string name="ClearWaterButtonText">Обнулить</string>

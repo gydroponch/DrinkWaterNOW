@@ -7,6 +7,18 @@
     android:background="@color/appBackground"
     android:theme="@style/Theme.drinkwaternow">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarForstLaunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryVariant"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Первый запуск"
+        app:titleTextColor="?attr/colorOnPrimary"
+        tools:layout_editor_absoluteX="145dp" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/continueButton"
         android:layout_width="wrap_content"
@@ -117,15 +129,15 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Приветствуем вас в нашем приложении!"
+        android:layout_marginTop="16dp"
+        android:text="Привет!"
         android:textColor="@color/darkestBlueForStatusBar"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarForstLaunch" />
 
     <TextView
         android:id="@+id/textView2"

@@ -6,11 +6,36 @@
     android:layout_height="match_parent"
     android:background="@color/appBackground">
 
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/lineChart"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintEnd_toEndOf="@+id/backgroundRectangle"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.75" />
+
+    <ImageView
+        android:id="@+id/backgroundRectangle"
+        android:layout_width="380dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rectangle_shape_for_main_activity"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statsToolbar" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/goBackButtonStats"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/rectangle_rounded_button"
         android:elevation="5dp"
         android:text="вернуться"
@@ -18,10 +43,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/lineChart" />
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/statsToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimaryVariant"
@@ -31,5 +56,19 @@
         app:title="Статистика"
         app:titleTextColor="?attr/colorOnPrimary"
         tools:layout_editor_absoluteX="145dp" />
+
+    <TextView
+        android:id="@+id/textViewError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text=""
+        android:textColor="@color/errorColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toEndOf="@+id/goBackButtonStats"
+        app:layout_constraintTop_toBottomOf="@+id/backgroundRectangle"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
