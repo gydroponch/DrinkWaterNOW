@@ -2,10 +2,10 @@
 University water reminder project app
 :)
 **Main screen!**
-![Main screen!](https://i.imgur.com/JPlPs28.jpeg)
+![Main screen!](https://i.imgur.com/2Ye1aTK.png)
 **Choosing waah amount**
-![Choosing waah amount](https://i.imgur.com/JoKHY7a.jpeg)
-**Notifications settings**
-![Notifications settings](https://i.imgur.com/dKU5Gqc.jpeg)
+![Choosing waah amount](https://i.imgur.com/LhczueP.png)
+**Notifications settings screen**
+![Notifications settings](https://i.imgur.com/h68cW9k.png)
 **Statistics screen**
-![Statistics screen](https://i.imgur.com/PK6Z1WF.jpeg)
+![Statistics screen](https://i.imgur.com/JqmLqHu.png)
