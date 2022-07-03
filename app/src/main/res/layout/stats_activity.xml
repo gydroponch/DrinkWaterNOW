@@ -9,20 +9,19 @@
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/lineChart"
         android:layout_width="350dp"
-        android:layout_height="200dp"
+        android:layout_height="280dp"
         android:elevation="5dp"
         app:layout_constraintBottom_toBottomOf="@+id/backgroundRectangle"
         app:layout_constraintEnd_toEndOf="@+id/backgroundRectangle"
-        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="@+id/backgroundRectangle"
-        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintTop_toTopOf="@+id/backgroundRectangle" />
 
     <ImageView
         android:id="@+id/backgroundRectangle"
         android:layout_width="380dp"
-        android:layout_height="230dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/rectangle_shape_for_main_activity"
         android:clipToPadding="false"
         android:elevation="4dp"
@@ -35,13 +34,12 @@
         android:id="@+id/goBackButtonStats"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/rectangle_rounded_button"
         android:elevation="5dp"
         android:text="вернуться"
         android:textColor="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lineChart" />
 

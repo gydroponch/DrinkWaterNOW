@@ -24,7 +24,7 @@ class StatisticsActivity: AppCompatActivity() {
 
         lineChartView.isInteractive = true
         lineChartView.isZoomEnabled = true
-        lineChartView.zoomType = ZoomType.HORIZONTAL
+        lineChartView.zoomType = ZoomType.HORIZONTAL_AND_VERTICAL
 
         val values: MutableList<PointValue> = ArrayList()
         val axisValuesX: MutableList<AxisValue> = ArrayList()
@@ -39,15 +39,17 @@ class StatisticsActivity: AppCompatActivity() {
                 val intake = intakesList[i]
                 calendar.timeInMillis=intake.DateTime
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
                 val month = SimpleDateFormat("MMM").format(calendar.time)
                 val labelString = "$day $month"
                 println(labelString)
-                values.add(PointValue(day.toFloat(), intake.Volume.toFloat()))
-                axisValuesX.add(AxisValue(day.toFloat()).setLabel(labelString))
+                values.add(PointValue(dayOfYear.toFloat(), intake.Volume.toFloat()))
+                axisValuesX.add(AxisValue(dayOfYear.toFloat()).setLabel(labelString))
                 axisValuesY.add(AxisValue(intake.Volume.toFloat()))
                 println("i = $day: ${intake.Volume}   ${values[i]}")
             }
-        } else textViewError.text = "Недостаточно данных для построения \nграфика! Пейте воду ещё пару дней!"
+        }
+        if (intakesList.size < 2) textViewError.text = "Недостаточно данных для построения \nграфика! Пейте воду ещё пару дней!"
 
 
         val line = Line(values).setColor(ContextCompat.getColor(applicationContext, R.color.darkerBlueForStatusBar)).setHasPoints(true)
